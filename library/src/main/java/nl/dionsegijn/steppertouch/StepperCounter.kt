@@ -10,15 +10,19 @@ import kotlin.properties.Delegates
  * Created by dionsegijn on 3/19/17.
  */
 internal class StepperCounter : LinearLayout, Stepper {
+
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     var viewStepCounter: TextView? = null
-        get() { return findViewById(R.id.viewTextStepperCount) as TextView }
+        get() {
+            return findViewById(R.id.viewTextStepperCount) as TextView
+        }
 
     var count: Int by Delegates.observable(0) {
-        prop, old, new -> updateView(new); notifyStepCallback(new, new > old)
+        prop, old, new ->
+        updateView(new); notifyStepCallback(new, new > old)
     }
 
     var maxValue: Int = Integer.MAX_VALUE
@@ -26,7 +30,7 @@ internal class StepperCounter : LinearLayout, Stepper {
     val callbacks: MutableList<OnStepCallback> = mutableListOf()
 
     init {
-        if(android.os.Build.VERSION.SDK_INT >= 21) {
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
             elevation = 12f
         }
     }
@@ -41,6 +45,10 @@ internal class StepperCounter : LinearLayout, Stepper {
 
     override fun notifyStepCallback(value: Int, positive: Boolean) {
         callbacks.forEach { it.onStep(value, positive) }
+    }
+
+    override fun getValue(): Int {
+        return count
     }
 
     override fun setMax(value: Int) {
@@ -61,11 +69,11 @@ internal class StepperCounter : LinearLayout, Stepper {
     }
 
     internal fun add() {
-        if(count != maxValue) count += 1
+        if (count != maxValue) count += 1
     }
 
     internal fun subtract() {
-        if(count != minValue) count--
+        if (count != minValue) count--
     }
 
     private fun updateView(value: Int) {

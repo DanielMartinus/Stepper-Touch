@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val stepperTouch = findViewById(R.id.stepperTouch) as StepperTouch
+        stepperTouch.stepper.setMin(0)
         stepperTouch.stepper.setMax(3)
         stepperTouch.stepper.addStepCallback(object : OnStepCallback {
             override fun onStep(value: Int, positive: Boolean) {
