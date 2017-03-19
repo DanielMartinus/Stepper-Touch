@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Stepper Touch</string>
+    <string name="credits"><![CDATA[Stepper Touch - Concept by <font color="#ffffff">Oleg Frolov</font]]></string>
+    <string name="source"><![CDATA[Widget by <font color="#ffffff">Dion Segijn</font> - Star or Fork at Github]]></string>
 </resources>
