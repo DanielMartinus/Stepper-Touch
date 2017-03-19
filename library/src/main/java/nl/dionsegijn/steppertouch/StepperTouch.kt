@@ -13,6 +13,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.TextView
 
@@ -71,6 +72,13 @@ class StepperTouch : FrameLayout, OnStepCallback {
 
     init {
         clipChildren = true
+        viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                newHeight = height
+                setStepperSize(viewStepper)
+                return true
+            }
+        })
     }
 
     private fun prepareElements() {
@@ -88,7 +96,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
         addView(textViewPositive)
 
         // Add draggable viewStepper to the container
-        viewStepper = createStepper(newHeight)
+        viewStepper = createStepper()
         addView(viewStepper)
     }
 
@@ -120,17 +128,21 @@ class StepperTouch : FrameLayout, OnStepCallback {
         }
     }
 
-    private fun createStepper(height: Int): StepperCounter {
+    private fun createStepper(): StepperCounter {
         val view = LayoutInflater.from(context).inflate(R.layout.view_step_counter, null) as StepperCounter
-        view.layoutParams = FrameLayout.LayoutParams(newHeight, newHeight, Gravity.CENTER)
-        val stepperRadius = getRadiusBackgroundShape(height.toFloat())
-        stepperRadius.setColor(ContextCompat.getColor(context, stepperButtonColor))
-        view.background = stepperRadius
+        setStepperSize(view)
         view.addStepCallback(this)
         view.setStepperTextColor(ContextCompat.getColor(context, stepperTextColor))
         // Set stepper interface
         this.stepper = view
         return view
+    }
+
+    private fun setStepperSize(view: StepperCounter) {
+        view.layoutParams = FrameLayout.LayoutParams(newHeight, newHeight, Gravity.CENTER)
+        val stepperRadius = getRadiusBackgroundShape(newHeight.toFloat())
+        stepperRadius.setColor(ContextCompat.getColor(context, stepperButtonColor))
+        view.background = stepperRadius
     }
 
     override fun onStep(value: Int, positive: Boolean) {
