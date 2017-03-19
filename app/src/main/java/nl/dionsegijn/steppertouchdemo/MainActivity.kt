@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
             override fun onStep(value: Int, positive: Boolean) {
                 Toast.makeText(applicationContext, value.toString(), Toast.LENGTH_SHORT).show()
             }
-
         })
     }
 }
