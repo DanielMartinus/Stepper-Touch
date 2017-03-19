@@ -1,0 +1,179 @@
+package nl.dionsegijn.steppertouch
+
+import android.content.Context
+import android.content.res.TypedArray
+import android.graphics.Canvas
+import android.graphics.Path
+import android.graphics.RectF
+import android.graphics.drawable.GradientDrawable
+import android.support.animation.SpringAnimation
+import android.support.annotation.ColorRes
+import android.support.v4.content.ContextCompat
+import android.util.AttributeSet
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.widget.FrameLayout
+import android.widget.TextView
+
+
+/**
+ * Created by dionsegijn on 3/19/17.
+ */
+class StepperTouch : FrameLayout, OnStepCallback {
+    constructor(context: Context) : super(context) { prepareElements() }
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) { handleAttrs(attrs) }
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) { handleAttrs(attrs) }
+
+    private lateinit var root: FrameLayout
+
+    // Stepper view
+    lateinit var stepper: Stepper
+    private lateinit var viewStepper: StepperCounter
+    private lateinit var textViewNegative: TextView
+    private lateinit var textViewPositive: TextView
+
+    // Drawing properties
+    private val clipPath = Path()
+    private var rect: RectF? = null
+
+    private val defaultHeight: Int = pxFromDp(40f).toInt()
+    private var newHeight: Int = 0
+
+    // Animation properties
+    private val stiffness: Float = 200f
+    private val damping: Float = 0.6f
+    private var startX: Float = 0f
+
+    // Style properties
+    private var stepperBackground = R.color.stepper_background
+    private var stepperActionColor = R.color.stepper_actions
+    private var stepperActionColorDisabled = R.color.stepper_actions_disabled
+    private var stepperTextColor = R.color.stepper_text
+    private var stepperButtonColor = R.color.stepper_button
+    private var stepperTextSize = 20
+
+    private fun handleAttrs(attrs: AttributeSet) {
+        val styles: TypedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.StepperTouch, 0, 0)
+
+        try {
+            stepperBackground = styles.getResourceId(R.styleable.StepperTouch_stepperBackgroundColor, R.color.stepper_background)
+            stepperActionColor = styles.getResourceId(R.styleable.StepperTouch_stepperActionsColor, R.color.stepper_actions)
+            stepperActionColorDisabled = styles.getResourceId(R.styleable.StepperTouch_stepperActionsDisabledColor, R.color.stepper_actions_disabled)
+            stepperTextColor = styles.getResourceId(R.styleable.StepperTouch_stepperTextColor, R.color.stepper_text)
+            stepperButtonColor = styles.getResourceId(R.styleable.StepperTouch_stepperButtonColor, R.color.stepper_button)
+            stepperTextSize = styles.getDimensionPixelSize(R.styleable.StepperTouch_stepperTextSize, R.dimen.st_textsize)
+        } finally {
+            styles.recycle()
+            prepareElements()
+        }
+    }
+
+    init {
+        clipChildren = true
+    }
+
+    private fun prepareElements() {
+        // Set width based on height
+        newHeight = if (height == 0) defaultHeight else height
+
+        // Set radius based on height
+        val parentRadius = getRadiusBackgroundShape(newHeight.toFloat())
+        this.background = parentRadius
+        parentRadius.setColor(ContextCompat.getColor(context, stepperBackground))
+
+        textViewNegative = createTextView("-", Gravity.START, stepperActionColorDisabled)
+        addView(textViewNegative)
+        textViewPositive = createTextView("+", Gravity.END, stepperActionColor)
+        addView(textViewPositive)
+
+        // Add draggable viewStepper to the container
+        viewStepper = createStepper(newHeight)
+        addView(viewStepper)
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                startX = event.x
+                return true
+            }
+            MotionEvent.ACTION_MOVE -> {
+                viewStepper.translationX = event.x - startX
+                return true
+            }
+            MotionEvent.ACTION_UP -> {
+                if (viewStepper.translationX > viewStepper.width * 0.5) viewStepper.add()
+                else if (viewStepper.translationX < -(viewStepper.width * 0.5)) viewStepper.subtract()
+
+                if (viewStepper.translationX != 0f) {
+                    val animX = SpringAnimation(viewStepper, SpringAnimation.TRANSLATION_X, 0f)
+                    animX.spring.stiffness = stiffness
+                    animX.spring.dampingRatio = damping
+                    animX.start()
+                }
+                return true
+            }
+            else -> {
+                return false
+            }
+        }
+    }
+
+    private fun createStepper(height: Int): StepperCounter {
+        val view = LayoutInflater.from(context).inflate(R.layout.view_step_counter, null) as StepperCounter
+        view.layoutParams = FrameLayout.LayoutParams(newHeight, newHeight, Gravity.CENTER)
+        val stepperRadius = getRadiusBackgroundShape(height.toFloat())
+        stepperRadius.setColor(ContextCompat.getColor(context, stepperButtonColor))
+        view.background = stepperRadius
+        view.addStepCallback(this)
+        view.setStepperTextColor(ContextCompat.getColor(context, stepperTextColor))
+        // Set stepper interface
+        this.stepper = view
+        return view
+    }
+
+    override fun onStep(value: Int, positive: Boolean) {
+        textViewNegative.setTextColor(ContextCompat.getColor(context,
+                if(value == viewStepper.minValue) stepperActionColorDisabled else stepperActionColor)
+        )
+        textViewPositive.setTextColor(ContextCompat.getColor(context,
+                if(value == viewStepper.maxValue) stepperActionColorDisabled else stepperActionColor)
+        )
+    }
+
+    private fun createTextView(text: String, gravity: Int, @ColorRes color: Int): TextView {
+        val textView: TextView = TextView(context)
+        textView.text = text
+        textView.textSize = 20f
+        textView.setTextColor(ContextCompat.getColor(context, color))
+        val paramsTextView = FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, gravity)
+        textView.layoutParams = paramsTextView
+        textView.gravity = Gravity.CENTER_VERTICAL
+        val margin = pxFromDp(12f).toInt()
+        paramsTextView.setMargins(margin, 0, margin, 0)
+        return textView
+    }
+
+    private fun getRadiusBackgroundShape(radius: Float): GradientDrawable {
+        val radiusBackground = GradientDrawable()
+        radiusBackground.cornerRadius = radius
+        return radiusBackground
+    }
+
+    /**
+     * Handle clipping of the rounded container
+     */
+    override fun onDraw(canvas: Canvas) {
+        rect.let { rect = RectF(canvas.clipBounds) }
+        // Clipping rounded corner
+        val r: Float = canvas.height.toFloat()
+        clipPath.addRoundRect(rect, r, r, Path.Direction.CW)
+        canvas.clipPath(clipPath)
+        super.onDraw(canvas)
+    }
+
+    private fun pxFromDp(dp: Float): Float {
+        return dp * resources.displayMetrics.density
+    }
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="stepper_background">#8a8eff</color>
+    <color name="stepper_button">#ffffff</color>
+    <color name="stepper_text">#6d72ff</color>
+    <color name="stepper_actions">#fff</color>
+    <color name="stepper_actions_disabled">#85ffffff</color>
+</resources>

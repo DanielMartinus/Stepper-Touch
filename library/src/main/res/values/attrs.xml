@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StepperTouch">
+        <!-- Styleable colors -->
+        <attr name="stepperBackgroundColor" format="reference"/>
+        <attr name="stepperButtonColor" format="reference"/>
+        <attr name="stepperActionsColor" format="reference"/>
+        <attr name="stepperActionsDisabledColor" format="reference"/>
+        <attr name="stepperTextColor" format="reference"/>
+
+        <!-- Styleable dimensions -->
+        <attr name="stepperTextSize" format="dimension"/>
+
+    </declare-styleable>
+</resources>
