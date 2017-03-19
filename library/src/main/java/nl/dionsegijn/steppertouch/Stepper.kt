@@ -11,6 +11,7 @@ interface Stepper {
     fun notifyStepCallback(value: Int, positive: Boolean)
     fun setMax(value: Int)
     fun setMin(value: Int)
+    fun getValue(): Int
     fun setValue(value: Int)
     fun setStepperTextColor(@ColorInt color: Int)
 }
