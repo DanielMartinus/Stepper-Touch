@@ -1,13 +1,17 @@
 # Stepper-Touch
 
 
-[![Twitter](https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat)](http://twitter.com/dionsegijn)
+[![Twitter](https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat)](http://twitter.com/dionsegijn) ![API](https://img.shields.io/badge/API-16%2B-blue.svg?style=flat)
 
 Stepper Touch for Android based on a Material Up showcase designed by [Oleg Frolov](https://material.uplabs.com/posts/stepper-touch-interface)
 
 In the latest version of the support library (25.3.0) a new class SpringAnimation was made available. I wanted to test this out and not long after that I found Stepper Touch, a concept made in FramerJS, on Material Up. I took this oppertunity to play with SpringAnimations.
 
-<img src="https://github.com/DanielMartinus/Stepper-Touch/blob/master/media/demo.gif" width="300" />
+[<img src="media/demo.gif" width="300" />]()
+
+Try it yourself:
+
+[<img src="media/google-play-badge.png" width="250" />](https://play.google.com/store/apps/details?id=nl.dionsegijn.steppertouchdemo)
 
 ## Gradle
 
@@ -70,6 +74,3 @@ app:stepperActionsDisabledColor=""
 app:stepperTextColor=""
 app:stepperTextSize=""
 ```
-
-### TODO
-- Demo coming soon, in the meantime you can clone the project to check it out yourself.
