@@ -6,7 +6,7 @@
     <color name="stepper_actions">#fff</color>
     <color name="stepper_actions_disabled">#85ffffff</color>
 
-    <color name="stepper_background_blue">#f9f9f9</color>
+    <color name="stepper_background_blue">#f5f5f5</color>
     <color name="stepper_text_blue">#3da8fe</color>
     <color name="stepper_actions_blue">#98d1ff</color>
 </resources>

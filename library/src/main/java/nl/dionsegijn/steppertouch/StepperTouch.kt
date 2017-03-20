@@ -180,7 +180,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
     override fun onDraw(canvas: Canvas) {
         rect.let { rect = RectF(canvas.clipBounds) }
         // Clipping rounded corner
-        val r: Float = canvas.height.toFloat()
+        val r: Float = canvas.height.toFloat() / 2
         clipPath.addRoundRect(rect, r, r, Path.Direction.CW)
         canvas.clipPath(clipPath)
         super.onDraw(canvas)
