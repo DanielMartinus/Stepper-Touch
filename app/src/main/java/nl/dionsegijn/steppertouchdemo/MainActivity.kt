@@ -17,6 +17,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val stepperTouch2 = findViewById(R.id.stepperTouch2) as StepperTouch
+        stepperTouch2.stepper.setMin(0)
+        stepperTouch2.stepper.setMax(3)
         val stepperTouch = findViewById(R.id.stepperTouch) as StepperTouch
         stepperTouch.stepper.setMin(0)
         stepperTouch.stepper.setMax(10)
@@ -26,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        setCreditsAndSource()
+//        setCreditsAndSource()
     }
 
     fun setCreditsAndSource() {
