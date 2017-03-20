@@ -74,6 +74,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
         clipChildren = true
         viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
             override fun onPreDraw(): Boolean {
+                viewTreeObserver.removeOnPreDrawListener(this)
                 newHeight = height
                 setStepperSize(viewStepper)
                 return true
