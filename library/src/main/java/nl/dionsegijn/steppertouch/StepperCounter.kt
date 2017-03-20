@@ -20,10 +20,9 @@ internal class StepperCounter : LinearLayout, Stepper {
             return findViewById(R.id.viewTextStepperCount) as TextView
         }
 
-    var count: Int by Delegates.observable(0) {
-        prop, old, new ->
-        updateView(new); notifyStepCallback(new, new > old)
-    }
+    var count: Int by Delegates.observable(0, {
+        prop, old, new -> updateView(new); notifyStepCallback(new, new > old)
+    })
 
     var maxValue: Int = Integer.MAX_VALUE
     var minValue: Int = Integer.MIN_VALUE
@@ -31,7 +30,7 @@ internal class StepperCounter : LinearLayout, Stepper {
 
     init {
         if (android.os.Build.VERSION.SDK_INT >= 21) {
-            elevation = 12f
+            elevation = 4f
         }
     }
 
