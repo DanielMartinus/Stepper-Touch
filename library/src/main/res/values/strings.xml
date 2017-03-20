@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Stepper Touch</string>
+    <string name="github_repo" translatable="false">https://github.com/DanielMartinus/Stepper-Touch</string>
 </resources>

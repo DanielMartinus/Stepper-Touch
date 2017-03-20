@@ -15,11 +15,16 @@ class MainActivity : AppCompatActivity() {
 
         val stepperTouch = findViewById(R.id.stepperTouch) as StepperTouch
         stepperTouch.stepper.setMin(0)
-        stepperTouch.stepper.setMax(3)
+        stepperTouch.stepper.setMax(5)
         stepperTouch.stepper.addStepCallback(object : OnStepCallback {
             override fun onStep(value: Int, positive: Boolean) {
                 Toast.makeText(applicationContext, value.toString(), Toast.LENGTH_SHORT).show()
             }
         })
+
+        val stepperTouchBlue = findViewById(R.id.stepperTouch2) as StepperTouch
+        stepperTouchBlue.stepper.setMin(-10)
+        stepperTouchBlue.stepper.setMax(10)
     }
+
 }

@@ -1,29 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/background"
     tools:context="nl.dionsegijn.steppertouchdemo.MainActivity">
 
-    <nl.dionsegijn.steppertouch.StepperTouch
-        android:id="@+id/stepperTouch"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:layout_margin="40dp"
-        android:clipChildren="true"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/stepperTouch"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Based on the concept of Oleg Frolov"
-        android:textColor="#bbffffff" />
+        <nl.dionsegijn.steppertouch.StepperTouch
+            android:id="@+id/stepperTouch"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_margin="40dp"
+            android:clipChildren="true"
+            android:orientation="horizontal" />
 
-</RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#fefefe"
+        android:gravity="center">
+
+        <nl.dionsegijn.steppertouch.StepperTouch
+            android:id="@+id/stepperTouch2"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_margin="40dp"
+            android:clipChildren="true"
+            android:orientation="horizontal"
+            app:stepperTextColor="@color/stepper_text_blue"
+            app:stepperActionsColor="@color/stepper_text_blue"
+            app:stepperActionsDisabledColor="@color/stepper_actions_blue"
+            app:stepperBackgroundColor="@color/stepper_background_blue"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
