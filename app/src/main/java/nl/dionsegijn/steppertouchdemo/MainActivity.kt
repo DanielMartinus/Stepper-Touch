@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         stepperTouch.stepper.setMax(5)
         stepperTouch.stepper.addStepCallback(object : OnStepCallback {
             override fun onStep(value: Int, positive: Boolean) {
-//                Toast.makeText(applicationContext, value.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, value.toString(), Toast.LENGTH_SHORT).show()
             }
         })
 
