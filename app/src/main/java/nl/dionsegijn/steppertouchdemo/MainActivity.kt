@@ -22,9 +22,10 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        val stepperTouchBlue = findViewById(R.id.stepperTouch2) as StepperTouch
-        stepperTouchBlue.stepper.setMin(-10)
-        stepperTouchBlue.stepper.setMax(10)
+        val bottemStepperTouch = findViewById(R.id.bottomStepperTouch) as StepperTouch
+        bottemStepperTouch.stepper.setMin(-10)
+        bottemStepperTouch.stepper.setMax(10)
+        bottemStepperTouch.enableSideTap(true)
     }
 
 }

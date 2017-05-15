@@ -33,7 +33,7 @@
         android:gravity="center">
 
         <nl.dionsegijn.steppertouch.StepperTouch
-            android:id="@+id/stepperTouch2"
+            android:id="@+id/bottomStepperTouch"
             android:layout_width="130dp"
             android:layout_height="50dp"
             android:layout_margin="40dp"
