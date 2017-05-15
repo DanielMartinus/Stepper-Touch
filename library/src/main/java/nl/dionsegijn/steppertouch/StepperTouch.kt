@@ -11,6 +11,9 @@ import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.TextView
 
@@ -71,14 +74,6 @@ class StepperTouch : FrameLayout, OnStepCallback {
 
     init {
         clipChildren = true
-        viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
-            override fun onPreDraw(): Boolean {
-                viewTreeObserver.removeOnPreDrawListener(this)
-                newHeight = height
-                setStepperSize(viewStepper)
-                return true
-            }
-        })
     }
 
     private fun prepareElements() {
@@ -224,4 +219,11 @@ class StepperTouch : FrameLayout, OnStepCallback {
     private fun pxFromDp(dp: Float): Float {
         return dp * resources.displayMetrics.density
     }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        newHeight = measuredHeight
+        setStepperSize(viewStepper)
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+    }
+
 }
