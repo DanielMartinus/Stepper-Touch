@@ -132,6 +132,8 @@ class StepperTouch : FrameLayout, OnStepCallback {
                 if(!isTapped) {
                     startX = event.x
                 }
+                startX = event.x
+                parent.requestDisallowInterceptTouchEvent(true)
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
@@ -154,6 +156,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
                 return true
             }
             else -> {
+                parent.requestDisallowInterceptTouchEvent(false)
                 return false
             }
         }
