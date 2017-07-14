@@ -31,7 +31,7 @@ allprojects {
 
 ```gradle
 dependencies {
-	compile 'com.github.DanielMartinus:Stepper-Touch:0.5'
+	compile 'com.github.DanielMartinus:Stepper-Touch:0.6'
 }
 ```
 
