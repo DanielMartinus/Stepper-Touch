@@ -21,7 +21,7 @@ internal class StepperCounter : LinearLayout, Stepper {
         }
 
     var count: Int by Delegates.observable(0, {
-        prop, old, new -> updateView(new); notifyStepCallback(new, new > old)
+        _, old, new -> updateView(new); notifyStepCallback(new, new > old)
     })
 
     var maxValue: Int = Integer.MAX_VALUE
