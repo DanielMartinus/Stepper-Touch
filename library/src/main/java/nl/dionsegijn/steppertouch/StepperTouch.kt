@@ -10,6 +10,7 @@ import android.support.animation.SpringAnimation
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.view.*
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -24,8 +25,6 @@ class StepperTouch : FrameLayout, OnStepCallback {
     constructor(context: Context) : super(context) { prepareElements() }
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) { handleAttrs(attrs) }
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) { handleAttrs(attrs) }
-
-    private lateinit var root: FrameLayout
 
     // Stepper view
     lateinit var stepper: Stepper
@@ -52,6 +51,10 @@ class StepperTouch : FrameLayout, OnStepCallback {
     private var stepperTextColor = R.color.stepper_text
     private var stepperButtonColor = R.color.stepper_button
     private var stepperTextSize = 20
+
+    // Indication if tapping positive and negative sides is allowed
+    private var isTapEnabled: Boolean = false
+    private var isTapped: Boolean = false
 
     private fun handleAttrs(attrs: AttributeSet) {
         val styles: TypedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.StepperTouch, 0, 0)
@@ -84,26 +87,63 @@ class StepperTouch : FrameLayout, OnStepCallback {
 
         textViewNegative = createTextView("-", Gravity.START, stepperActionColorDisabled)
         addView(textViewNegative)
+        enableSideTapForView(textViewNegative)
+        
         textViewPositive = createTextView("+", Gravity.END, stepperActionColor)
         addView(textViewPositive)
+        enableSideTapForView(textViewPositive)
 
         // Add draggable viewStepper to the container
         viewStepper = createStepper()
         addView(viewStepper)
     }
 
+    fun enableSideTapForView(textView: View) {
+        textView.setOnTouchListener { v, event ->
+            if(event.action == MotionEvent.ACTION_DOWN) {
+                if(isTapEnabled) {
+                    isTapped = true
+                    viewStepper.x = v.x
+                }
+            }
+            false
+        }
+    }
+
+    /**
+     * Enable interaction when tapping on the left or right side of the widget.
+     * @param [enable] true if allowed to update the widget
+     */
+    fun enableSideTap(enable: Boolean) {
+        isTapEnabled = enable
+    }
+
+    /**
+     * If tapping on the right or left side will trigger the widget to react.
+     * @return boolean if the widget will update the count when tapping on one of the sides
+     */
+    fun getIsEnabled() : Boolean {
+        return isTapEnabled
+    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                if(!isTapped) {
+                    startX = event.x
+                }
                 startX = event.x
                 parent.requestDisallowInterceptTouchEvent(true)
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
-                viewStepper.translationX = event.x - startX
+                if(!isTapped) {
+                    viewStepper.translationX = event.x - startX
+                }
                 return true
             }
             MotionEvent.ACTION_UP -> {
+                isTapped = false
                 if (viewStepper.translationX > viewStepper.width * 0.5) viewStepper.add()
                 else if (viewStepper.translationX < -(viewStepper.width * 0.5)) viewStepper.subtract()
 
@@ -157,7 +197,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
         textView.layoutParams = paramsTextView
         textView.gravity = Gravity.CENTER_VERTICAL
         val margin = pxFromDp(12f).toInt()
-        paramsTextView.setMargins(margin, 0, margin, 0)
+        textView.setPadding(margin, 0, margin, 0)
         return textView
     }
 
