@@ -85,11 +85,11 @@ class StepperTouch : FrameLayout, OnStepCallback {
         this.background = parentRadius
         parentRadius.setColor(ContextCompat.getColor(context, stepperBackground))
 
-        textViewNegative = createTextView("-", Gravity.START, stepperActionColorDisabled)
+        textViewNegative = createTextView("+", Gravity.START, stepperActionColorDisabled)
         addView(textViewNegative)
         enableSideTapForView(textViewNegative)
         
-        textViewPositive = createTextView("+", Gravity.END, stepperActionColor)
+        textViewPositive = createTextView("-", Gravity.END, stepperActionColor)
         addView(textViewPositive)
         enableSideTapForView(textViewPositive)
 
