@@ -57,6 +57,20 @@ stepperTouch.stepper.addStepCallback(object : OnStepCallback {
 })
 ```
 
+Quick example written in Java:
+
+```Java
+StepperTouch stepperTouch = (StepperTouch) findViewById(R.id.stepperTouch);
+        stepperTouch.stepper.setMin(0);
+        stepperTouch.stepper.setMax(3);
+        stepperTouch.stepper.addStepCallback(new OnStepCallback() {
+            @Override
+            public void onStep(int value, boolean positive) {
+                Toast.makeText(getApplicationContext(), value + "", Toast.LENGTH_SHORT).show();
+            }
+        });
+```
+
 You are able to further customize or set initial values with styled attributes: 
 
 Add res-auto to your xml layout if you haven't yet
