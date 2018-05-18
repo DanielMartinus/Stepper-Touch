@@ -44,7 +44,7 @@ dependencies {
         android:layout_height="40dp" />
 ```
 
-Quick example written in Kotlin:
+### Kotlin
 
 ```Kotlin
 val stepperTouch = findViewById(R.id.stepperTouch) as StepperTouch
@@ -57,7 +57,7 @@ stepperTouch.stepper.addStepCallback(object : OnStepCallback {
 })
 ```
 
-Quick example written in Java:
+### Java
 
 ```Java
 StepperTouch stepperTouch = (StepperTouch) findViewById(R.id.stepperTouch);
