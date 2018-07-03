@@ -224,7 +224,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        newHeight = measuredHeight
+        newHeight = if (measuredHeight == 0) newHeight else measuredHeight
         setStepperSize(viewStepper)
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
