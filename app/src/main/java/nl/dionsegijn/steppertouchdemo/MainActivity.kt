@@ -22,10 +22,8 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        // options are set by xml only! :)
         val bottemStepperTouch = findViewById(R.id.bottomStepperTouch) as StepperTouch
-//        bottemStepperTouch.stepper.setMin(-10)
-//        bottemStepperTouch.stepper.setMax(10)
-        bottemStepperTouch.enableSideTap(true)
     }
 
 }
