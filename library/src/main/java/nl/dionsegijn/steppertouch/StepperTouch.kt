@@ -51,6 +51,9 @@ class StepperTouch : FrameLayout, OnStepCallback {
     private var stepperTextColor = R.color.stepper_text
     private var stepperButtonColor = R.color.stepper_button
     private var stepperTextSize = 20
+    private var stepperMaxCount = Integer.MAX_VALUE
+    private var stepperMinCount = Integer.MIN_VALUE
+    private var stepperCount = 0
 
     // Indication if tapping positive and negative sides is allowed
     private var isTapEnabled: Boolean = false
@@ -66,6 +69,10 @@ class StepperTouch : FrameLayout, OnStepCallback {
             stepperTextColor = styles.getResourceId(R.styleable.StepperTouch_stepperTextColor, R.color.stepper_text)
             stepperButtonColor = styles.getResourceId(R.styleable.StepperTouch_stepperButtonColor, R.color.stepper_button)
             stepperTextSize = styles.getDimensionPixelSize(R.styleable.StepperTouch_stepperTextSize, R.dimen.st_textsize)
+            stepperMaxCount = styles.getInt(R.styleable.StepperTouch_stepperMaxCount, Integer.MAX_VALUE)
+            stepperMinCount = styles.getInt(R.styleable.StepperTouch_stepperMinCount, Integer.MIN_VALUE)
+            stepperCount = styles.getInt(R.styleable.StepperTouch_stepperCount, 0)
+            isTapEnabled = styles.getBoolean(R.styleable.StepperTouch_stepperEnableSideTap, false)
         } finally {
             styles.recycle()
             prepareElements()
@@ -88,7 +95,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
         textViewNegative = createTextView("-", Gravity.START, stepperActionColorDisabled)
         addView(textViewNegative)
         enableSideTapForView(textViewNegative)
-        
+
         textViewPositive = createTextView("+", Gravity.END, stepperActionColor)
         addView(textViewPositive)
         enableSideTapForView(textViewPositive)
@@ -169,6 +176,9 @@ class StepperTouch : FrameLayout, OnStepCallback {
         view.setStepperTextColor(ContextCompat.getColor(context, stepperTextColor))
         // Set stepper interface
         this.stepper = view
+        stepper.setMax(stepperMaxCount)
+        stepper.setMin(stepperMinCount)
+        stepper.setValue(stepperCount.coerceIn(stepperMinCount, stepperMaxCount))
         return view
     }
 
@@ -189,7 +199,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
     }
 
     private fun createTextView(text: String, gravity: Int, @ColorRes color: Int): TextView {
-        val textView: TextView = TextView(context)
+        val textView = TextView(context)
         textView.text = text
         textView.textSize = 20f
         textView.setTextColor(ContextCompat.getColor(context, color))

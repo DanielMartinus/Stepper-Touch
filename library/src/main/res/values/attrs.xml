@@ -2,14 +2,20 @@
 <resources>
     <declare-styleable name="StepperTouch">
         <!-- Styleable colors -->
-        <attr name="stepperBackgroundColor" format="reference"/>
-        <attr name="stepperButtonColor" format="reference"/>
-        <attr name="stepperActionsColor" format="reference"/>
-        <attr name="stepperActionsDisabledColor" format="reference"/>
-        <attr name="stepperTextColor" format="reference"/>
+        <attr name="stepperBackgroundColor" format="reference" />
+        <attr name="stepperButtonColor" format="reference" />
+        <attr name="stepperActionsColor" format="reference" />
+        <attr name="stepperActionsDisabledColor" format="reference" />
+        <attr name="stepperTextColor" format="reference" />
 
         <!-- Styleable dimensions -->
-        <attr name="stepperTextSize" format="dimension"/>
+        <attr name="stepperTextSize" format="dimension" />
+
+        <attr name="stepperMaxCount" format="integer" />
+        <attr name="stepperMinCount" format="integer" />
+        <attr name="stepperCount" format="integer" />
+
+        <attr name="stepperEnableSideTap" format="boolean" />
 
     </declare-styleable>
 </resources>
