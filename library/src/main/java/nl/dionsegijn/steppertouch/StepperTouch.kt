@@ -75,6 +75,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
     private var stepperMinCount = Integer
             .MIN_VALUE
     private var stepperCount = 0
+    private var onStepListener: OnStepCallback? = null
 
     // Indication if tapping positive and negative sides is allowed
     private var isTapEnabled: Boolean = false
@@ -106,6 +107,12 @@ class StepperTouch : FrameLayout, OnStepCallback {
                     .getInt(R.styleable.StepperTouch_stepperCount, 0)
             isTapEnabled = styles
                     .getBoolean(R.styleable.StepperTouch_stepperEnableSideTap, false)
+            val handlerName = styles
+                    .getString(R.styleable.StepperTouch_stepperOnStep)
+            if (handlerName != null) {
+                onStepListener = DeclaredOnStepCallbackListener(this, handlerName)
+            }
+
         } finally {
             styles
                     .recycle()
@@ -232,6 +239,11 @@ class StepperTouch : FrameLayout, OnStepCallback {
 
         view
                 .addStepCallback(this)
+        onStepListener
+                ?.let {
+                    view
+                            .addStepCallback(it)
+                }
         view
                 .setStepperTextColor(ContextCompat.getColor(context, stepperTextColor))
         // Set stepper interface

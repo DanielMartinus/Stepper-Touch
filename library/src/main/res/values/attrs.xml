@@ -16,6 +16,7 @@
         <attr name="stepperCount" format="integer" />
 
         <attr name="stepperEnableSideTap" format="boolean" />
+        <attr name="stepperOnStep" format="string" />
 
     </declare-styleable>
 </resources>

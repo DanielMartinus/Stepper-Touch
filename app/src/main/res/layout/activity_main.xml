@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background"
+    android:orientation="vertical"
     tools:context="nl.dionsegijn.steppertouchdemo.MainActivity">
 
     <LinearLayout
@@ -39,14 +38,15 @@
             android:layout_margin="40dp"
             android:clipChildren="true"
             android:orientation="horizontal"
-            app:stepperCount="11"
-            app:stepperMinCount="0"
-            app:stepperEnableSideTap="true"
-            app:stepperMaxCount="10"
-            app:stepperTextColor="@color/stepper_text_blue"
             app:stepperActionsColor="@color/stepper_text_blue"
             app:stepperActionsDisabledColor="@color/stepper_actions_blue"
-            app:stepperBackgroundColor="@color/stepper_background_blue"/>
+            app:stepperBackgroundColor="@color/stepper_background_blue"
+            app:stepperCount="11"
+            app:stepperEnableSideTap="true"
+            app:stepperMaxCount="10"
+            app:stepperMinCount="0"
+            app:stepperOnStep="onStep"
+            app:stepperTextColor="@color/stepper_text_blue" />
 
     </LinearLayout>
 
