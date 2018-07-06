@@ -35,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         val bottemStepperTouch = findViewById(R.id.bottomStepperTouch) as StepperTouch
     }
 
+    // called from xml
+    @Suppress("unused")
     fun onStep(newValue: Int, positive: Boolean) {
         Toast
                 .makeText(this, "$newValue", Toast.LENGTH_SHORT)
