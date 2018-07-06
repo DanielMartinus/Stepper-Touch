@@ -172,13 +172,13 @@ class StepperTouch : FrameLayout, OnStepCallback {
     private fun createStepper(): StepperCounter {
         val view = LayoutInflater.from(context).inflate(R.layout.view_step_counter, null) as StepperCounter
         setStepperSize(view)
+        view.setMax(stepperMaxCount)
+        view.setMin(stepperMinCount)
+        view.setValue(stepperCount.coerceIn(stepperMinCount, stepperMaxCount))
         view.addStepCallback(this)
         view.setStepperTextColor(ContextCompat.getColor(context, stepperTextColor))
         // Set stepper interface
         this.stepper = view
-        stepper.setMax(stepperMaxCount)
-        stepper.setMin(stepperMinCount)
-        stepper.setValue(stepperCount.coerceIn(stepperMinCount, stepperMaxCount))
         return view
     }
 

@@ -23,8 +23,8 @@ class MainActivity : AppCompatActivity() {
         })
 
         val bottemStepperTouch = findViewById(R.id.bottomStepperTouch) as StepperTouch
-        bottemStepperTouch.stepper.setMin(-10)
-        bottemStepperTouch.stepper.setMax(10)
+//        bottemStepperTouch.stepper.setMin(-10)
+//        bottemStepperTouch.stepper.setMax(10)
         bottemStepperTouch.enableSideTap(true)
     }
 
