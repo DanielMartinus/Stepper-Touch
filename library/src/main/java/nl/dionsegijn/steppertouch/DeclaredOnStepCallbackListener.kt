@@ -28,7 +28,7 @@ internal class DeclaredOnStepCallbackListener(private val mHostView: View, priva
 
                     var method: Method? = null
                     for (method1 in methods) {
-                        if (method1.name == "onStep") {
+                        if (method1.name == mMethodName) {
                             method = method1
                         }
                     }
