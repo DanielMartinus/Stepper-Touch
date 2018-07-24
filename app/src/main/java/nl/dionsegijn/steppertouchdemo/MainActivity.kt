@@ -1,7 +1,9 @@
 package nl.dionsegijn.steppertouchdemo
 
 import android.os.Bundle
+import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.Toast
 import nl.dionsegijn.steppertouch.OnStepCallback
 import nl.dionsegijn.steppertouch.StepperTouch
@@ -13,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val stepperTouch = findViewById(R.id.stepperTouch) as StepperTouch
+        val stepperTouch = findViewById<StepperTouch>(R.id.stepperTouch)
         stepperTouch.stepper.setMin(0)
         stepperTouch.stepper.setMax(5)
         stepperTouch.stepper.addStepCallback(object : OnStepCallback {
@@ -22,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        val bottemStepperTouch = findViewById(R.id.bottomStepperTouch) as StepperTouch
+        val bottemStepperTouch = findViewById<StepperTouch>(R.id.bottomStepperTouch)
         bottemStepperTouch.stepper.setMin(-10)
         bottemStepperTouch.stepper.setMax(10)
         bottemStepperTouch.enableSideTap(true)

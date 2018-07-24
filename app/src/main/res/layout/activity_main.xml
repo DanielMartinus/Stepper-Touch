@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background"
+    android:orientation="vertical"
     tools:context="nl.dionsegijn.steppertouchdemo.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:text="Normal" />
 
         <nl.dionsegijn.steppertouch.StepperTouch
             android:id="@+id/stepperTouch"
@@ -39,10 +45,10 @@
             android:layout_margin="40dp"
             android:clipChildren="true"
             android:orientation="horizontal"
-            app:stepperTextColor="@color/stepper_text_blue"
             app:stepperActionsColor="@color/stepper_text_blue"
             app:stepperActionsDisabledColor="@color/stepper_actions_blue"
-            app:stepperBackgroundColor="@color/stepper_background_blue"/>
+            app:stepperBackgroundColor="@color/stepper_background_blue"
+            app:stepperTextColor="@color/stepper_text_blue" />
 
     </LinearLayout>
 
