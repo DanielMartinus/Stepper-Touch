@@ -1,9 +1,7 @@
 package nl.dionsegijn.steppertouchdemo
 
 import android.os.Bundle
-import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.Toast
 import nl.dionsegijn.steppertouch.OnStepCallback
 import nl.dionsegijn.steppertouch.StepperTouch

@@ -6,6 +6,8 @@ import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.drawable.GradientDrawable
+import android.os.Bundle
+import android.os.Parcelable
 import android.support.animation.SpringAnimation
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
@@ -23,6 +25,12 @@ import android.widget.TextView
  * Created by dionsegijn on 3/19/17.
  */
 class StepperTouch : FrameLayout, OnStepCallback {
+
+    object VIEW_RESTORE {
+        val COUNT_KEY = "count"
+        val SUPER_STATE_KEY = "superState"
+    }
+
     constructor(context: Context) : super(context) {
         prepareElements()
     }
@@ -104,6 +112,23 @@ class StepperTouch : FrameLayout, OnStepCallback {
         // Add draggable viewStepper to the container
         viewStepper = createStepper()
         addView(viewStepper)
+    }
+
+    public override fun onSaveInstanceState(): Parcelable? {
+        val superState = super.onSaveInstanceState()
+        val bundle = Bundle()
+        bundle.putParcelable(VIEW_RESTORE.SUPER_STATE_KEY, superState)
+        bundle.putInt(VIEW_RESTORE.COUNT_KEY, stepper.getValue())
+        return bundle
+    }
+
+    public override fun onRestoreInstanceState(state: Parcelable) {
+        val bundle: Bundle = state as Bundle
+        val superState = bundle.getParcelable<Parcelable>(VIEW_RESTORE.SUPER_STATE_KEY)
+        super.onRestoreInstanceState(superState)
+
+        val count = bundle.getInt(VIEW_RESTORE.COUNT_KEY)
+        stepper.setValue(count)
     }
 
     fun enableSideTapForView(textView: View) {
