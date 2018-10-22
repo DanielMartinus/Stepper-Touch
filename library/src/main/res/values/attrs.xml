@@ -11,5 +11,7 @@
         <!-- Styleable dimensions -->
         <attr name="stepperTextSize" format="dimension"/>
 
+        <attr name="stepperJustAddAvailable" format="boolean" />
+
     </declare-styleable>
 </resources>

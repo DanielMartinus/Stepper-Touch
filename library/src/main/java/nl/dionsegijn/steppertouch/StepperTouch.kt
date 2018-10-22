@@ -51,6 +51,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
     private var stepperTextColor = R.color.stepper_text
     private var stepperButtonColor = R.color.stepper_button
     private var stepperTextSize = 20
+    private var justAddAvailable = false
 
     // Indication if tapping positive and negative sides is allowed
     private var isTapEnabled: Boolean = false
@@ -66,6 +67,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
             stepperTextColor = styles.getResourceId(R.styleable.StepperTouch_stepperTextColor, R.color.stepper_text)
             stepperButtonColor = styles.getResourceId(R.styleable.StepperTouch_stepperButtonColor, R.color.stepper_button)
             stepperTextSize = styles.getDimensionPixelSize(R.styleable.StepperTouch_stepperTextSize, R.dimen.st_textsize)
+            justAddAvailable = styles.getBoolean(R.styleable.StepperTouch_stepperJustAddAvailable, false);
         } finally {
             styles.recycle()
             prepareElements()
@@ -92,6 +94,10 @@ class StepperTouch : FrameLayout, OnStepCallback {
         textViewPositive = createTextView("+", Gravity.END, stepperActionColor)
         addView(textViewPositive)
         enableSideTapForView(textViewPositive)
+
+        if (justAddAvailable) {
+            textViewNegative.visibility = View.INVISIBLE
+        }
 
         // Add draggable viewStepper to the container
         viewStepper = createStepper()
@@ -145,7 +151,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
             MotionEvent.ACTION_UP -> {
                 isTapped = false
                 if (viewStepper.translationX > viewStepper.width * 0.5) viewStepper.add()
-                else if (viewStepper.translationX < -(viewStepper.width * 0.5)) viewStepper.subtract()
+                else if (viewStepper.translationX < -(viewStepper.width * 0.5) && !justAddAvailable) viewStepper.subtract()
 
                 if (viewStepper.translationX != 0f) {
                     val animX = SpringAnimation(viewStepper, SpringAnimation.TRANSLATION_X, 0f)
