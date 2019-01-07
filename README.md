@@ -35,6 +35,15 @@ dependencies {
 }
 ```
 
+If you already migrated your project to **AndroidX** use:
+
+```gradle
+dependencies {
+	compile 'com.github.DanielMartinus:Stepper-Touch:0.7'
+}
+```
+More info about it here: [#24](https://github.com/DanielMartinus/Stepper-Touch/issues/24)
+
 ## Implement
 
 ```XML
@@ -71,13 +80,13 @@ stepperTouch.stepper.addStepCallback(new OnStepCallback() {
 });
 ```
 
-You are able to further customize or set initial values with styled attributes: 
+You're able to further customize or set initial values with styled attributes:
 
 Add res-auto to your xml layout if you haven't yet
- 
+
 ```XML
 xmlns:app="http://schemas.android.com/apk/res-auto"
-``` 
+```
 
 After that the following attributes will become available:
 
