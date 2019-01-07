@@ -1,5 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = "com.github.DanielMartinus"
+
+repositories {
+    mavenCentral()
+}
 
 android {
     compileSdkVersion 28
@@ -22,7 +29,4 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
-}
-repositories {
-    mavenCentral()
 }
