@@ -6,9 +6,9 @@ import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.drawable.GradientDrawable
-import android.support.animation.SpringAnimation
-import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
+import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import android.view.*
 import android.view.Gravity

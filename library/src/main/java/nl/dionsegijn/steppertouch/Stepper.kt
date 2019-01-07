@@ -1,6 +1,6 @@
 package nl.dionsegijn.steppertouch
 
-import android.support.annotation.ColorInt
+import androidx.annotation.ColorInt
 
 /**
  * Created by dionsegijn on 3/19/17.
