@@ -31,7 +31,7 @@ allprojects {
 
 ```gradle
 dependencies {
-	compile 'com.github.DanielMartinus:Stepper-Touch:0.6'
+	implementation 'com.github.DanielMartinus:Stepper-Touch:0.6'
 }
 ```
 
@@ -39,7 +39,7 @@ If you already migrated your project to **AndroidX** use:
 
 ```gradle
 dependencies {
-	compile 'com.github.DanielMartinus:Stepper-Touch:0.7'
+	implementation 'com.github.DanielMartinus:Stepper-Touch:0.7'
 }
 ```
 More info about it here: [#24](https://github.com/DanielMartinus/Stepper-Touch/issues/24)
