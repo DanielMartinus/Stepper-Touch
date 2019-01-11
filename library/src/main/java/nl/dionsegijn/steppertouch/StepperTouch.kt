@@ -52,6 +52,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
     private var stepperButtonColor = R.color.stepper_button
     private var stepperTextSize = 20
     private var allowNegativeStepper = true
+    private var allowPositiveStepper = true
 
     // Indication if tapping positive and negative sides is allowed
     private var isTapEnabled: Boolean = false
@@ -68,6 +69,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
             stepperButtonColor = styles.getResourceId(R.styleable.StepperTouch_stepperButtonColor, R.color.stepper_button)
             stepperTextSize = styles.getDimensionPixelSize(R.styleable.StepperTouch_stepperTextSize, R.dimen.st_textsize)
             allowNegativeStepper = styles.getBoolean(R.styleable.StepperTouch_stepperAllowNegativeStepper, true)
+            allowPositiveStepper = styles.getBoolean(R.styleable.StepperTouch_stepperAllowPositiveStepper, true)
         } finally {
             styles.recycle()
             prepareElements()
@@ -96,6 +98,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
         enableSideTapForView(textViewPositive)
 
         refreshNegativeVisibility()
+        refreshPositiveVisibility()
 
         // Add draggable viewStepper to the container
         viewStepper = createStepper()
@@ -107,6 +110,14 @@ class StepperTouch : FrameLayout, OnStepCallback {
             textViewNegative.visibility = View.INVISIBLE
         } else {
             textViewNegative.visibility = View.VISIBLE
+        }
+    }
+
+    private fun refreshPositiveVisibility() {
+        if (!allowPositiveStepper) {
+            textViewPositive.visibility = View.INVISIBLE
+        } else {
+            textViewPositive.visibility = View.VISIBLE
         }
     }
 
@@ -130,6 +141,16 @@ class StepperTouch : FrameLayout, OnStepCallback {
     fun allowNegativeStepper(allow: Boolean) {
         allowNegativeStepper = allow
         refreshNegativeVisibility()
+    }
+
+    /**
+     * Allow interact with positive section, if you disallow, the positive section will hide,
+     * and it's not working
+     * @param [allow] true if allow to use positive, false to disallow
+     * */
+    fun allowPositiveStepper(allow: Boolean) {
+        allowPositiveStepper = allow
+        refreshPositiveVisibility()
     }
 
     /**
@@ -166,7 +187,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
             }
             MotionEvent.ACTION_UP -> {
                 isTapped = false
-                if (viewStepper.translationX > viewStepper.width * 0.5) viewStepper.add()
+                if (viewStepper.translationX > viewStepper.width * 0.5 && allowPositiveStepper) viewStepper.add()
                 else if (viewStepper.translationX < -(viewStepper.width * 0.5) && allowNegativeStepper) viewStepper.subtract()
 
                 if (viewStepper.translationX != 0f) {

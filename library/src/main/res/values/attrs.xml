@@ -12,6 +12,7 @@
         <attr name="stepperTextSize" format="dimension"/>
 
         <attr name="stepperAllowNegativeStepper" format="boolean" />
+        <attr name="stepperAllowPositiveStepper" format="boolean" />
 
     </declare-styleable>
 </resources>
