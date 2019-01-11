@@ -25,12 +25,12 @@ class MainActivity : AppCompatActivity() {
         bottomStepperTouch.stepper.setMin(-10)
         bottomStepperTouch.stepper.setMax(10)
         bottomStepperTouch.enableSideTap(true)
-        bottemStepperTouch.stepper.addStepCallback(object : OnStepCallback {
+        bottomStepperTouch.stepper.addStepCallback(object : OnStepCallback {
             override fun onStep(value: Int, positive: Boolean) {
                 if (value % 2 == 0) {
-                    bottemStepperTouch.allowNegativeStepper(true)
+                    bottomStepperTouch.allowNegativeStepper(true)
                 } else {
-                    bottemStepperTouch.allowNegativeStepper(false)
+                    bottomStepperTouch.allowNegativeStepper(false)
                 }
             }
         })
