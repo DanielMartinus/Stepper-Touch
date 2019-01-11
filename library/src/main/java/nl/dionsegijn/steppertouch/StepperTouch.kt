@@ -123,6 +123,16 @@ class StepperTouch : FrameLayout, OnStepCallback {
     }
 
     /**
+    * Allow interact with negative section, if you disallow, the negative section will hide,
+    * and it's not working
+    * @param [allow] true if allow to use negative, false to disallow
+    * */
+    fun allowNegativeStepper(allow: Boolean) {
+        allowNegativeStepper = allow
+        refreshNegativeVisibility()
+    }
+
+    /**
      * Enable interaction when tapping on the left or right side of the widget.
      * @param [enable] true if allowed to update the widget
      */
