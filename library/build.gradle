@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: "com.diffplug.gradle.spotless"
+apply plugin: 'kotlin-android-extensions'
 
 group = "com.github.DanielMartinus"
 
@@ -40,5 +41,6 @@ spotless {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
+    implementation "androidx.dynamicanimation:dynamicanimation:1.0.0"
+    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
 }
