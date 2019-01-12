@@ -27,21 +27,22 @@ allprojects {
 }
 ```
 
-* Step 2. Add the dependency
+* Step 2. Add the dependency (only for androidx projects)
 
+```gradle
+dependencies {
+	implementation 'com.github.DanielMartinus:Stepper-Touch:0.8'
+}
+```
+
+If you haven't migrated your project to **AndroidX** use:
 ```gradle
 dependencies {
 	implementation 'com.github.DanielMartinus:Stepper-Touch:0.6'
 }
 ```
 
-If you already migrated your project to **AndroidX** use:
 
-```gradle
-dependencies {
-	implementation 'com.github.DanielMartinus:Stepper-Touch:0.7'
-}
-```
 More info about it here: [#24](https://github.com/DanielMartinus/Stepper-Touch/issues/24)
 
 ## Implement
