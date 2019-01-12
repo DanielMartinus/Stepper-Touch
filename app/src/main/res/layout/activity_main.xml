@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background"
-    tools:context="nl.dionsegijn.steppertouchdemo.MainActivity">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/background"
+        tools:context="nl.dionsegijn.steppertouchdemo.MainActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
 
         <nl.dionsegijn.steppertouch.StepperTouch
-            android:id="@+id/stepperTouch"
-            android:layout_width="130dp"
-            android:layout_height="50dp"
-            android:layout_margin="40dp"
-            android:clipChildren="true"
-            android:orientation="horizontal" />
+                android:id="@+id/stepperTouch"
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:layout_margin="40dp"
+                android:clipChildren="true"
+                android:orientation="horizontal"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#fefefe"
-        android:gravity="center">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#fefefe"
+            android:gravity="center">
 
         <nl.dionsegijn.steppertouch.StepperTouch
-            android:id="@+id/bottomStepperTouch"
-            android:layout_width="130dp"
-            android:layout_height="50dp"
-            android:layout_margin="40dp"
-            android:clipChildren="true"
-            android:orientation="horizontal"
-            app:stepperTextColor="@color/stepper_text_blue"
-            app:stepperActionsColor="@color/stepper_text_blue"
-            app:stepperActionsDisabledColor="@color/stepper_actions_blue"
-            app:stepperBackgroundColor="@color/stepper_background_blue" />
+                android:id="@+id/bottomStepperTouch"
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:layout_margin="40dp"
+                android:clipChildren="true"
+                android:orientation="horizontal"
+                app:stepperTextColor="@color/stepper_text_blue"
+                app:stepperActionsColor="@color/stepper_text_blue"
+                app:stepperActionsDisabledColor="@color/stepper_actions_blue"
+                app:stepperBackgroundColor="@color/stepper_background_blue"/>
 
     </LinearLayout>
 
