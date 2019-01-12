@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.dionsegijn.steppertouch.OnStepCallback
-import nl.dionsegijn.steppertouch.StepperTouch
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,9 +27,9 @@ class MainActivity : AppCompatActivity() {
         bottomStepperTouch.stepper.addStepCallback(object : OnStepCallback {
             override fun onStep(value: Int, positive: Boolean) {
                 if (value % 2 == 0) {
-                    bottomStepperTouch.allowNegativeStepper(true)
+                    bottomStepperTouch.allowNegative(true)
                 } else {
-                    bottomStepperTouch.allowNegativeStepper(false)
+                    bottomStepperTouch.allowNegative(false)
                 }
             }
         })
