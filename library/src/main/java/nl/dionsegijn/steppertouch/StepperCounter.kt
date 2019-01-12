@@ -15,18 +15,17 @@ internal class StepperCounter : LinearLayout, Stepper {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    var viewStepCounter: TextView? = null
+    private var viewStepCounter: TextView? = null
         get() {
             return findViewById(R.id.viewTextStepperCount) as TextView
         }
 
-    var count: Int by Delegates.observable(0, {
-        _, old, new -> updateView(new); notifyStepCallback(new, new > old)
-    })
+    private var count: Int by Delegates.observable(0) { _, old, new -> updateView(new); notifyStepCallback(new, new > old)
+    }
 
     var maxValue: Int = Integer.MAX_VALUE
     var minValue: Int = Integer.MIN_VALUE
-    val callbacks: MutableList<OnStepCallback> = mutableListOf()
+    private val callbacks: MutableList<OnStepCallback> = mutableListOf()
 
     init {
         if (android.os.Build.VERSION.SDK_INT >= 21) {

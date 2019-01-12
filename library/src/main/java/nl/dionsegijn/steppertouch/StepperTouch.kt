@@ -10,13 +10,12 @@ import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import android.util.AttributeSet
-import android.view.*
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-
 
 /**
  * Created by dionsegijn on 3/19/17.
@@ -123,8 +122,8 @@ class StepperTouch : FrameLayout, OnStepCallback {
 
     fun enableSideTapForView(textView: View) {
         textView.setOnTouchListener { v, event ->
-            if(event.action == MotionEvent.ACTION_DOWN) {
-                if(isTapEnabled) {
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                if (isTapEnabled) {
                     isTapped = true
                     viewStepper.x = v.x
                 }
@@ -165,14 +164,14 @@ class StepperTouch : FrameLayout, OnStepCallback {
      * If tapping on the right or left side will trigger the widget to react.
      * @return boolean if the widget will update the count when tapping on one of the sides
      */
-    fun getIsEnabled() : Boolean {
+    fun getIsEnabled(): Boolean {
         return isTapEnabled
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                if(!isTapped) {
+                if (!isTapped) {
                     startX = event.x
                 }
                 startX = event.x
@@ -180,7 +179,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
-                if(!isTapped) {
+                if (!isTapped) {
                     viewStepper.translationX = event.x - startX
                 }
                 return true
@@ -224,15 +223,15 @@ class StepperTouch : FrameLayout, OnStepCallback {
 
     override fun onStep(value: Int, positive: Boolean) {
         textViewNegative.setTextColor(ContextCompat.getColor(context,
-                if(value == viewStepper.minValue) stepperActionColorDisabled else stepperActionColor)
+                if (value == viewStepper.minValue) stepperActionColorDisabled else stepperActionColor)
         )
         textViewPositive.setTextColor(ContextCompat.getColor(context,
-                if(value == viewStepper.maxValue) stepperActionColorDisabled else stepperActionColor)
+                if (value == viewStepper.maxValue) stepperActionColorDisabled else stepperActionColor)
         )
     }
 
     private fun createTextView(text: String, gravity: Int, @ColorRes color: Int): TextView {
-        val textView: TextView = TextView(context)
+        val textView = TextView(context)
         textView.text = text
         textView.textSize = 20f
         textView.setTextColor(ContextCompat.getColor(context, color))
@@ -256,7 +255,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
     override fun onDraw(canvas: Canvas) {
         rect.let { rect = RectF(canvas.clipBounds) }
         // Clipping rounded corner
-        val r: Float = canvas.height.toFloat() / 2
+        val r: Float = height.toFloat() / 2
         clipPath.addRoundRect(rect, r, r, Path.Direction.CW)
         canvas.clipPath(clipPath)
         super.onDraw(canvas)
@@ -271,5 +270,4 @@ class StepperTouch : FrameLayout, OnStepCallback {
         setStepperSize(viewStepper)
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
-
 }
