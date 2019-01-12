@@ -231,7 +231,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
     }
 
     private fun createTextView(text: String, gravity: Int, @ColorRes color: Int): TextView {
-        val textView: TextView = TextView(context)
+        val textView = TextView(context)
         textView.text = text
         textView.textSize = 20f
         textView.setTextColor(ContextCompat.getColor(context, color))
@@ -255,7 +255,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
     override fun onDraw(canvas: Canvas) {
         rect.let { rect = RectF(canvas.clipBounds) }
         // Clipping rounded corner
-        val r: Float = canvas.height.toFloat() / 2
+        val r: Float = height.toFloat() / 2
         clipPath.addRoundRect(rect, r, r, Path.Direction.CW)
         canvas.clipPath(clipPath)
         super.onDraw(canvas)
