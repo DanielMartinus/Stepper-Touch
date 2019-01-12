@@ -57,6 +57,14 @@ internal class StepperCounter : LinearLayout, Stepper {
         minValue = value
     }
 
+    override fun getMax(): Int {
+        return maxValue
+    }
+
+    override fun getMin(): Int {
+        return minValue
+    }
+
     override fun setValue(value: Int) {
         count = value
         updateView(count)
