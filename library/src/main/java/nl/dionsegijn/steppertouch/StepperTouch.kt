@@ -81,7 +81,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
 
     private fun prepareElements() {
         // Set width based on height
-        newHeight = if (height == 0) defaultHeight else height
+        newHeight = if(height == 0) defaultHeight else height
 
         // Set radius based on height
         val parentRadius = getRadiusBackgroundShape(newHeight.toFloat())
