@@ -24,6 +24,16 @@ class StepperTouchNew : ConstraintLayout {
     private val clipPath = Path()
     private var rect: RectF? = null
 
+    // Animation properties
+    private val stiffness: Float = 200f
+    private val damping: Float = 0.6f
+    private var startX: Float = 0f
+
+
+    // Indication if tapping positive and negative sides is allowed
+    private var isTapEnabled: Boolean = false
+    private var isTapped: Boolean = false
+
     // Style properties
     private var stepperBackground = R.color.stepper_background
     private var stepperActionColor = R.color.stepper_actions
@@ -59,5 +69,40 @@ class StepperTouchNew : ConstraintLayout {
             styles.recycle()
         }
     }
-    
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                if (!isTapped) {
+                    startX = event.x
+                }
+                startX = event.x
+                parent.requestDisallowInterceptTouchEvent(true)
+                return true
+            }
+            MotionEvent.ACTION_MOVE -> {
+                if (!isTapped) {
+                    viewCounter.translationX = event.x - startX
+                }
+                return true
+            }
+            MotionEvent.ACTION_UP -> {
+                isTapped = false
+//                if (viewCounter.translationX > viewCounter.width * 0.5 && allowPositive) viewStepper.add()
+//                else if (viewStepper.translationX < -(viewStepper.width * 0.5) && allowNegative) viewStepper.subtract()
+
+                if (viewCounter.translationX != 0f) {
+                    val animX = SpringAnimation(viewCounter, SpringAnimation.TRANSLATION_X, 0f)
+                    animX.spring.stiffness = stiffness
+                    animX.spring.dampingRatio = damping
+                    animX.start()
+                }
+                return true
+            }
+            else -> {
+                parent.requestDisallowInterceptTouchEvent(false)
+                return false
+            }
+        }
+    }
 }
