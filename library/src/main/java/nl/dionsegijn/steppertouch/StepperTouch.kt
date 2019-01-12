@@ -51,6 +51,8 @@ class StepperTouch : FrameLayout, OnStepCallback {
     private var stepperTextColor = R.color.stepper_text
     private var stepperButtonColor = R.color.stepper_button
     private var stepperTextSize = 20
+    private var allowNegative = true
+    private var allowPositive = true
 
     // Indication if tapping positive and negative sides is allowed
     private var isTapEnabled: Boolean = false
@@ -66,6 +68,8 @@ class StepperTouch : FrameLayout, OnStepCallback {
             stepperTextColor = styles.getResourceId(R.styleable.StepperTouch_stepperTextColor, R.color.stepper_text)
             stepperButtonColor = styles.getResourceId(R.styleable.StepperTouch_stepperButtonColor, R.color.stepper_button)
             stepperTextSize = styles.getDimensionPixelSize(R.styleable.StepperTouch_stepperTextSize, R.dimen.st_textsize)
+            allowNegative = styles.getBoolean(R.styleable.StepperTouch_stepperAllowNegative, true)
+            allowPositive = styles.getBoolean(R.styleable.StepperTouch_stepperAllowPositive, true)
         } finally {
             styles.recycle()
             prepareElements()
@@ -88,14 +92,33 @@ class StepperTouch : FrameLayout, OnStepCallback {
         textViewNegative = createTextView("-", Gravity.START, stepperActionColorDisabled)
         addView(textViewNegative)
         enableSideTapForView(textViewNegative)
-        
+
         textViewPositive = createTextView("+", Gravity.END, stepperActionColor)
         addView(textViewPositive)
         enableSideTapForView(textViewPositive)
 
+        refreshNegativeVisibility()
+        refreshPositiveVisibility()
+
         // Add draggable viewStepper to the container
         viewStepper = createStepper()
         addView(viewStepper)
+    }
+
+    private fun refreshNegativeVisibility() {
+        if (!allowNegative) {
+            textViewNegative.visibility = View.INVISIBLE
+        } else {
+            textViewNegative.visibility = View.VISIBLE
+        }
+    }
+
+    private fun refreshPositiveVisibility() {
+        if (!allowPositive) {
+            textViewPositive.visibility = View.INVISIBLE
+        } else {
+            textViewPositive.visibility = View.VISIBLE
+        }
     }
 
     fun enableSideTapForView(textView: View) {
@@ -108,6 +131,26 @@ class StepperTouch : FrameLayout, OnStepCallback {
             }
             false
         }
+    }
+
+    /**
+    * Allow interact with negative section, if you disallow, the negative section will hide,
+    * and it's not working
+    * @param [allow] true if allow to use negative, false to disallow
+    * */
+    fun allowNegative(allow: Boolean) {
+        allowNegative = allow
+        refreshNegativeVisibility()
+    }
+
+    /**
+     * Allow interact with positive section, if you disallow, the positive section will hide,
+     * and it's not working
+     * @param [allow] true if allow to use positive, false to disallow
+     * */
+    fun allowPositive(allow: Boolean) {
+        allowPositive = allow
+        refreshPositiveVisibility()
     }
 
     /**
@@ -144,8 +187,8 @@ class StepperTouch : FrameLayout, OnStepCallback {
             }
             MotionEvent.ACTION_UP -> {
                 isTapped = false
-                if (viewStepper.translationX > viewStepper.width * 0.5) viewStepper.add()
-                else if (viewStepper.translationX < -(viewStepper.width * 0.5)) viewStepper.subtract()
+                if (viewStepper.translationX > viewStepper.width * 0.5 && allowPositive) viewStepper.add()
+                else if (viewStepper.translationX < -(viewStepper.width * 0.5) && allowNegative) viewStepper.subtract()
 
                 if (viewStepper.translationX != 0f) {
                     val animX = SpringAnimation(viewStepper, SpringAnimation.TRANSLATION_X, 0f)
