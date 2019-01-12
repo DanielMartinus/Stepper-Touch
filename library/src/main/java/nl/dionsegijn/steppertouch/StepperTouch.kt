@@ -66,7 +66,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
             stepperActionColorDisabled = styles.getResourceId(R.styleable.StepperTouch_stepperActionsDisabledColor, R.color.stepper_actions_disabled)
             stepperTextColor = styles.getResourceId(R.styleable.StepperTouch_stepperTextColor, R.color.stepper_text)
             stepperButtonColor = styles.getResourceId(R.styleable.StepperTouch_stepperButtonColor, R.color.stepper_button)
-            stepperTextSize = styles.getDimensionPixelSize(R.styleable.StepperTouch_stepperTextSize, R.dimen.st_textsize)
+            stepperTextSize = styles.getDimensionPixelSize(R.styleable.StepperTouch_stepperTextSize, stepperTextSize)
             allowNegative = styles.getBoolean(R.styleable.StepperTouch_stepperAllowNegative, true)
             allowPositive = styles.getBoolean(R.styleable.StepperTouch_stepperAllowPositive, true)
         } finally {
@@ -120,7 +120,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
         }
     }
 
-    fun enableSideTapForView(textView: View) {
+    private fun enableSideTapForView(textView: View) {
         textView.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 if (isTapEnabled) {
@@ -209,6 +209,7 @@ class StepperTouch : FrameLayout, OnStepCallback {
         setStepperSize(view)
         view.addStepCallback(this)
         view.setStepperTextColor(ContextCompat.getColor(context, stepperTextColor))
+        view.setTextSize(stepperTextSize.toFloat())
         // Set stepper interface
         this.stepper = view
         return view

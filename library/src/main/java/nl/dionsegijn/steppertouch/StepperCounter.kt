@@ -85,4 +85,8 @@ internal class StepperCounter : LinearLayout, Stepper {
     private fun updateView(value: Int) {
         viewStepCounter?.text = value.toString()
     }
+
+    fun setTextSize(pixels: Float) {
+        viewStepCounter?.textSize = pixels
+    }
 }
