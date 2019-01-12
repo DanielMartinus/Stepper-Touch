@@ -42,9 +42,7 @@
             app:stepperTextColor="@color/stepper_text_blue"
             app:stepperActionsColor="@color/stepper_text_blue"
             app:stepperActionsDisabledColor="@color/stepper_actions_blue"
-            app:stepperBackgroundColor="@color/stepper_background_blue"
-            app:stepperAllowNegative="false"
-            />
+            app:stepperBackgroundColor="@color/stepper_background_blue" />
 
     </LinearLayout>
 

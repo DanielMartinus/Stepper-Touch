@@ -26,11 +26,9 @@ class MainActivity : AppCompatActivity() {
         bottomStepperTouch.enableSideTap(true)
         bottomStepperTouch.stepper.addStepCallback(object : OnStepCallback {
             override fun onStep(value: Int, positive: Boolean) {
-                if (value % 2 == 0) {
-                    bottomStepperTouch.allowNegative(true)
-                } else {
-                    bottomStepperTouch.allowNegative(false)
-                }
+                // Hide and disable the negative or positive stepper when max or min is reached
+                bottomStepperTouch.allowNegative(value > bottomStepperTouch.stepper.getMin())
+                bottomStepperTouch.allowPositive(value < bottomStepperTouch.stepper.getMax())
             }
         })
     }
