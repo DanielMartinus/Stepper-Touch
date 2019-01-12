@@ -61,7 +61,7 @@ stepperTouch.stepper.setMin(0)
 stepperTouch.stepper.setMax(3)
 stepperTouch.stepper.addStepCallback(object : OnStepCallback {
 	override fun onStep(value: Int, positive: Boolean) {
-    	Toast.makeText(applicationContext, value.toString(), Toast.LENGTH_SHORT).show()
+    		Toast.makeText(applicationContext, value.toString(), Toast.LENGTH_SHORT).show()
 	}
 })
 ```
@@ -97,4 +97,6 @@ app:stepperActionsColor=""
 app:stepperActionsDisabledColor=""
 app:stepperTextColor=""
 app:stepperTextSize=""
+app:app:stepperAllowNegative=""
+app:app:stepperAllowPositive=""
 ```
