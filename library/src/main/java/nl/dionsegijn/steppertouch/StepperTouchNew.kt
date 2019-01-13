@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.stepper_touch.view.*
 import kotlin.properties.Delegates
 
@@ -40,6 +41,7 @@ class StepperTouchNew : ConstraintLayout {
     private val callbacks: MutableList<OnStepCallback> = mutableListOf()
     var count: Int by Delegates.observable(0) { _, old, new ->
         viewCounterText.text = new.toString()
+        updateTextColor()
         notifyStepCallback(new, new > old)
     }
 
@@ -117,6 +119,17 @@ class StepperTouchNew : ConstraintLayout {
         }
     }
 
+    private fun updateTextColor() {
+        textViewNegative.setTextColor(
+            ContextCompat.getColor(context,
+                if (count == minValue) stepperActionColorDisabled else stepperActionColor)
+        )
+        textViewPositive.setTextColor(
+            ContextCompat.getColor(context,
+                if (count == maxValue) stepperActionColorDisabled else stepperActionColor)
+        )
+    }
+
     fun setTextSize(pixels: Float) {
         viewCounterText.textSize = pixels
     }
@@ -129,7 +142,7 @@ class StepperTouchNew : ConstraintLayout {
         callbacks.remove(callback)
     }
 
-    fun notifyStepCallback(value: Int, positive: Boolean) {
+    private fun notifyStepCallback(value: Int, positive: Boolean) {
         callbacks.forEach { it.onStep(value, positive) }
     }
 
