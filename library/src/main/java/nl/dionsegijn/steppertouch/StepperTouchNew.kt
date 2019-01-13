@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.stepper_touch.view.*
+import kotlin.properties.Delegates
 
 /**
  * Created by dionsegijn on 3/19/17.
@@ -33,6 +34,14 @@ class StepperTouchNew : ConstraintLayout {
     // Indication if tapping positive and negative sides is allowed
     private var isTapEnabled: Boolean = false
     private var isTapped: Boolean = false
+
+    var maxValue: Int = Integer.MAX_VALUE
+    var minValue: Int = Integer.MIN_VALUE
+    private val callbacks: MutableList<OnStepCallback> = mutableListOf()
+    var count: Int by Delegates.observable(0) { _, old, new ->
+        viewCounterText.text = new.toString()
+        notifyStepCallback(new, new > old)
+    }
 
     // Style properties
     private var stepperBackground = R.color.stepper_background
@@ -88,8 +97,10 @@ class StepperTouchNew : ConstraintLayout {
             }
             MotionEvent.ACTION_UP -> {
                 isTapped = false
-//                if (viewCounter.translationX > viewCounter.width * 0.5 && allowPositive) viewStepper.add()
-//                else if (viewStepper.translationX < -(viewStepper.width * 0.5) && allowNegative) viewStepper.subtract()
+                when {
+                    viewCounter.translationX > viewCounter.width * 0.5 && allowPositive -> add()
+                    viewCounter.translationX < -(viewCounter.width * 0.5) && allowNegative -> subtract()
+                }
 
                 if (viewCounter.translationX != 0f) {
                     val animX = SpringAnimation(viewCounter, SpringAnimation.TRANSLATION_X, 0f)
@@ -104,5 +115,41 @@ class StepperTouchNew : ConstraintLayout {
                 return false
             }
         }
+    }
+
+    fun setTextSize(pixels: Float) {
+        viewCounterText.textSize = pixels
+    }
+
+    fun addStepCallback(callback: OnStepCallback) {
+        callbacks.add(callback)
+    }
+
+    fun removeStepCallback(callback: OnStepCallback) {
+        callbacks.remove(callback)
+    }
+
+    fun notifyStepCallback(value: Int, positive: Boolean) {
+        callbacks.forEach { it.onStep(value, positive) }
+    }
+
+    fun setMax(value: Int) {
+        maxValue = value
+    }
+
+    fun setMin(value: Int) {
+        minValue = value
+    }
+
+    fun setValue(value: Int) {
+        count = value
+    }
+
+    private fun add() {
+        if (count != maxValue) count += 1
+    }
+
+    private fun subtract() {
+        if (count != minValue) count--
     }
 }
