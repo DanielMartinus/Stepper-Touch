@@ -3,11 +3,13 @@ package nl.dionsegijn.steppertouch
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Path
+import android.graphics.Rect
 import android.graphics.RectF
 import androidx.dynamicanimation.animation.SpringAnimation
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.stepper_touch.view.*
@@ -33,7 +35,8 @@ class StepperTouchNew : ConstraintLayout {
 
 
     // Indication if tapping positive and negative sides is allowed
-    private var isTapEnabled: Boolean = false
+    var sideTapEnabled: Boolean = false
+    private var allowDragging = false
     private var isTapped: Boolean = false
 
     var maxValue: Int = Integer.MAX_VALUE
@@ -84,21 +87,27 @@ class StepperTouchNew : ConstraintLayout {
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (!isTapped) {
+
+                if(event.isInBounds(viewCounter)) {
                     startX = event.x
+                    allowDragging = true
+                } else if(sideTapEnabled) {
+                    isTapped = true
+                    viewCounter.x = event.x - viewCounter.width * 0.5f
                 }
-                startX = event.x
+
                 parent.requestDisallowInterceptTouchEvent(true)
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
-                if (!isTapped) {
+                if (allowDragging) {
                     viewCounter.translationX = event.x - startX
                 }
                 return true
             }
             MotionEvent.ACTION_UP -> {
-                isTapped = false
+                allowDragging = false
+
                 when {
                     viewCounter.translationX > viewCounter.width * 0.5 && allowPositive -> add()
                     viewCounter.translationX < -(viewCounter.width * 0.5) && allowNegative -> subtract()
@@ -117,6 +126,12 @@ class StepperTouchNew : ConstraintLayout {
                 return false
             }
         }
+    }
+
+    private fun MotionEvent.isInBounds(view: View): Boolean {
+        val rect = Rect()
+        view.getHitRect(rect)
+        return rect.contains(x.toInt(), y.toInt())
     }
 
     private fun updateTextColor() {
