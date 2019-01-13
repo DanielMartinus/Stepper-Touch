@@ -35,7 +35,6 @@ class StepperTouchNew : ConstraintLayout {
     private val damping: Float = 0.6f
     private var startX: Float = 0f
 
-
     // Indication if tapping positive and negative sides is allowed
     var sideTapEnabled: Boolean = false
     private var allowDragging = false
@@ -100,19 +99,18 @@ class StepperTouchNew : ConstraintLayout {
         updateSideControls()
 
         viewCounter.background?.apply {
-            if(this is GradientDrawable) setColor(ContextCompat.getColor(context, stepperButtonColor))
+            if (this is GradientDrawable) setColor(ContextCompat.getColor(context, stepperButtonColor))
         }
     }
-
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
 
-                if(event.isInBounds(viewCounter)) {
+                if (event.isInBounds(viewCounter)) {
                     startX = event.x
                     allowDragging = true
-                } else if(sideTapEnabled) {
+                } else if (sideTapEnabled) {
                     isTapped = true
                     viewCounter.x = event.x - viewCounter.width * 0.5f
                 }
@@ -229,6 +227,6 @@ class StepperTouchNew : ConstraintLayout {
     }
 
     private fun View.setVisibility(isVisible: Boolean) {
-        visibility = if(isVisible) View.VISIBLE else View.INVISIBLE
+        visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
     }
 }
