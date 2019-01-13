@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="st_textsize" format="dimension" type="dimen">20sp</item>
+    <dimen name="stepper_side_control_text_size">20sp</dimen>
 </resources>
