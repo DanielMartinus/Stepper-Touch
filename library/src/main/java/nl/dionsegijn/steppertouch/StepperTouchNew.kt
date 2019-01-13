@@ -6,6 +6,8 @@ import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ShapeDrawable
 import androidx.dynamicanimation.animation.SpringAnimation
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -45,7 +47,7 @@ class StepperTouchNew : ConstraintLayout {
     private val callbacks: MutableList<OnStepCallback> = mutableListOf()
     var count: Int by Delegates.observable(0) { _, old, new ->
         viewCounterText.text = new.toString()
-        updateTextColor()
+        updateSideControls()
         notifyStepCallback(new, new > old)
     }
 
@@ -64,7 +66,7 @@ class StepperTouchNew : ConstraintLayout {
         clipChildren = true
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
-            elevation = 4f
+            viewCounter.elevation = 8f
         }
         setWillNotDraw(false)
     }
@@ -85,8 +87,20 @@ class StepperTouchNew : ConstraintLayout {
             styles.recycle()
         }
 
-        updateSideControls()
+        updateStyling()
     }
+
+    private fun updateStyling() {
+        viewBackground.setBackgroundColor(ContextCompat.getColor(context, stepperBackground))
+        viewCounterText.setTextColor(ContextCompat.getColor(context, stepperTextColor))
+        viewCounterText.textSize = stepperTextSize.toFloat()
+        updateSideControls()
+
+        viewCounter.background?.apply {
+            if(this is GradientDrawable) setColor(ContextCompat.getColor(context, stepperButtonColor))
+        }
+    }
+
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
@@ -132,17 +146,6 @@ class StepperTouchNew : ConstraintLayout {
         }
     }
 
-    private fun updateTextColor() {
-        textViewNegative.setTextColor(
-            ContextCompat.getColor(context,
-                if (count == minValue) stepperActionColorDisabled else stepperActionColor)
-        )
-        textViewPositive.setTextColor(
-            ContextCompat.getColor(context,
-                if (count == maxValue) stepperActionColorDisabled else stepperActionColor)
-        )
-    }
-
     /**
      * Allow interact with negative section, if you disallow, the negative section will hide,
      * and it's not working
@@ -169,6 +172,15 @@ class StepperTouchNew : ConstraintLayout {
     private fun updateSideControls() {
         textViewNegative.setVisibility(allowNegative)
         textViewPositive.setVisibility(allowPositive)
+
+        textViewNegative.setTextColor(
+            ContextCompat.getColor(context,
+                if (count == minValue) stepperActionColorDisabled else stepperActionColor)
+        )
+        textViewPositive.setTextColor(
+            ContextCompat.getColor(context,
+                if (count == maxValue) stepperActionColorDisabled else stepperActionColor)
+        )
     }
 
     fun setTextSize(pixels: Float) {
