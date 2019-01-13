@@ -4,44 +4,54 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.graphics.Path
+import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.GradientDrawable
 import androidx.dynamicanimation.animation.SpringAnimation
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.stepper_touch.view.*
+import kotlin.properties.Delegates
 
 /**
  * Created by dionsegijn on 3/19/17.
  */
-class StepperTouch : FrameLayout, OnStepCallback {
-    constructor(context: Context) : super(context) { prepareElements() }
+class StepperTouch : ConstraintLayout {
+
+    constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) { handleAttrs(attrs) }
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) { handleAttrs(attrs) }
 
-    // Stepper view
-    lateinit var stepper: Stepper
-    private lateinit var viewStepper: StepperCounter
-    private lateinit var textViewNegative: TextView
-    private lateinit var textViewPositive: TextView
-
     // Drawing properties
+    private val clippingBounds: RectF = RectF()
     private val clipPath = Path()
-    private var rect: RectF? = null
-
-    private val defaultHeight: Int = pxFromDp(40f).toInt()
-    private var newHeight: Int = 0
 
     // Animation properties
     private val stiffness: Float = 200f
     private val damping: Float = 0.6f
     private var startX: Float = 0f
+
+    // Indication if tapping positive and negative sides is allowed
+    var sideTapEnabled: Boolean = false
+    private var allowDragging = false
+    private var isTapped: Boolean = false
+
+    var maxValue: Int by Delegates.observable(Integer.MAX_VALUE) { _, _, _ ->
+        updateSideControls()
+    }
+    var minValue: Int by Delegates.observable(Integer.MIN_VALUE) { _, _, _ ->
+        updateSideControls()
+    }
+    private val callbacks: MutableList<OnStepCallback> = mutableListOf()
+    var count: Int by Delegates.observable(0) { _, old, new ->
+        viewCounterText.text = new.toString()
+        updateSideControls()
+        notifyStepCallback(new, new > old)
+    }
 
     // Style properties
     private var stepperBackground = R.color.stepper_background
@@ -53,9 +63,15 @@ class StepperTouch : FrameLayout, OnStepCallback {
     private var allowNegative = true
     private var allowPositive = true
 
-    // Indication if tapping positive and negative sides is allowed
-    private var isTapEnabled: Boolean = false
-    private var isTapped: Boolean = false
+    init {
+        LayoutInflater.from(context).inflate(R.layout.stepper_touch, this, true)
+        clipChildren = true
+
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            viewCounter.elevation = 4f
+        }
+        setWillNotDraw(false)
+    }
 
     private fun handleAttrs(attrs: AttributeSet) {
         val styles: TypedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.StepperTouch, 0, 0)
@@ -71,126 +87,53 @@ class StepperTouch : FrameLayout, OnStepCallback {
             allowPositive = styles.getBoolean(R.styleable.StepperTouch_stepperAllowPositive, true)
         } finally {
             styles.recycle()
-            prepareElements()
         }
+
+        updateStyling()
     }
 
-    init {
-        clipChildren = true
-    }
+    private fun updateStyling() {
+        viewBackground.setBackgroundColor(ContextCompat.getColor(context, stepperBackground))
+        viewCounterText.setTextColor(ContextCompat.getColor(context, stepperTextColor))
+        viewCounterText.textSize = stepperTextSize.toFloat()
+        updateSideControls()
 
-    private fun prepareElements() {
-        // Set width based on height
-        newHeight = if (height == 0) defaultHeight else height
-
-        // Set radius based on height
-        val parentRadius = getRadiusBackgroundShape(newHeight.toFloat())
-        this.background = parentRadius
-        parentRadius.setColor(ContextCompat.getColor(context, stepperBackground))
-
-        textViewNegative = createTextView("-", Gravity.START, stepperActionColorDisabled)
-        addView(textViewNegative)
-        enableSideTapForView(textViewNegative)
-
-        textViewPositive = createTextView("+", Gravity.END, stepperActionColor)
-        addView(textViewPositive)
-        enableSideTapForView(textViewPositive)
-
-        refreshNegativeVisibility()
-        refreshPositiveVisibility()
-
-        // Add draggable viewStepper to the container
-        viewStepper = createStepper()
-        addView(viewStepper)
-    }
-
-    private fun refreshNegativeVisibility() {
-        if (!allowNegative) {
-            textViewNegative.visibility = View.INVISIBLE
-        } else {
-            textViewNegative.visibility = View.VISIBLE
+        viewCounter.background?.apply {
+            if (this is GradientDrawable) setColor(ContextCompat.getColor(context, stepperButtonColor))
         }
-    }
-
-    private fun refreshPositiveVisibility() {
-        if (!allowPositive) {
-            textViewPositive.visibility = View.INVISIBLE
-        } else {
-            textViewPositive.visibility = View.VISIBLE
-        }
-    }
-
-    private fun enableSideTapForView(textView: View) {
-        textView.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                if (isTapEnabled) {
-                    isTapped = true
-                    viewStepper.x = v.x
-                }
-            }
-            false
-        }
-    }
-
-    /**
-    * Allow interact with negative section, if you disallow, the negative section will hide,
-    * and it's not working
-    * @param [allow] true if allow to use negative, false to disallow
-    * */
-    fun allowNegative(allow: Boolean) {
-        allowNegative = allow
-        refreshNegativeVisibility()
-    }
-
-    /**
-     * Allow interact with positive section, if you disallow, the positive section will hide,
-     * and it's not working
-     * @param [allow] true if allow to use positive, false to disallow
-     * */
-    fun allowPositive(allow: Boolean) {
-        allowPositive = allow
-        refreshPositiveVisibility()
-    }
-
-    /**
-     * Enable interaction when tapping on the left or right side of the widget.
-     * @param [enable] true if allowed to update the widget
-     */
-    fun enableSideTap(enable: Boolean) {
-        isTapEnabled = enable
-    }
-
-    /**
-     * If tapping on the right or left side will trigger the widget to react.
-     * @return boolean if the widget will update the count when tapping on one of the sides
-     */
-    fun getIsEnabled(): Boolean {
-        return isTapEnabled
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (!isTapped) {
+
+                if (event.isInBounds(viewCounter)) {
                     startX = event.x
+                    allowDragging = true
+                } else if (sideTapEnabled) {
+                    isTapped = true
+                    viewCounter.x = event.x - viewCounter.width * 0.5f
                 }
-                startX = event.x
+
                 parent.requestDisallowInterceptTouchEvent(true)
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
-                if (!isTapped) {
-                    viewStepper.translationX = event.x - startX
+                if (allowDragging) {
+                    viewCounter.translationX = event.x - startX
                 }
                 return true
             }
             MotionEvent.ACTION_UP -> {
-                isTapped = false
-                if (viewStepper.translationX > viewStepper.width * 0.5 && allowPositive) viewStepper.add()
-                else if (viewStepper.translationX < -(viewStepper.width * 0.5) && allowNegative) viewStepper.subtract()
+                allowDragging = false
 
-                if (viewStepper.translationX != 0f) {
-                    val animX = SpringAnimation(viewStepper, SpringAnimation.TRANSLATION_X, 0f)
+                when {
+                    viewCounter.translationX > viewCounter.width * 0.5 && allowPositive -> add()
+                    viewCounter.translationX < -(viewCounter.width * 0.5) && allowNegative -> subtract()
+                }
+
+                if (viewCounter.translationX != 0f) {
+                    val animX = SpringAnimation(viewCounter, SpringAnimation.TRANSLATION_X, 0f)
                     animX.spring.stiffness = stiffness
                     animX.spring.dampingRatio = damping
                     animX.start()
@@ -204,71 +147,82 @@ class StepperTouch : FrameLayout, OnStepCallback {
         }
     }
 
-    private fun createStepper(): StepperCounter {
-        val view = LayoutInflater.from(context).inflate(R.layout.view_step_counter, null) as StepperCounter
-        setStepperSize(view)
-        view.addStepCallback(this)
-        view.setStepperTextColor(ContextCompat.getColor(context, stepperTextColor))
-        view.setTextSize(stepperTextSize.toFloat())
-        // Set stepper interface
-        this.stepper = view
-        return view
-    }
-
-    private fun setStepperSize(view: StepperCounter) {
-        view.layoutParams = FrameLayout.LayoutParams(newHeight, newHeight, Gravity.CENTER)
-        val stepperRadius = getRadiusBackgroundShape(newHeight.toFloat())
-        stepperRadius.setColor(ContextCompat.getColor(context, stepperButtonColor))
-        view.background = stepperRadius
-    }
-
-    override fun onStep(value: Int, positive: Boolean) {
-        textViewNegative.setTextColor(ContextCompat.getColor(context,
-                if (value == viewStepper.minValue) stepperActionColorDisabled else stepperActionColor)
-        )
-        textViewPositive.setTextColor(ContextCompat.getColor(context,
-                if (value == viewStepper.maxValue) stepperActionColorDisabled else stepperActionColor)
-        )
-    }
-
-    private fun createTextView(text: String, gravity: Int, @ColorRes color: Int): TextView {
-        val textView = TextView(context)
-        textView.text = text
-        textView.textSize = 20f
-        textView.setTextColor(ContextCompat.getColor(context, color))
-        val paramsTextView = FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, gravity)
-        textView.layoutParams = paramsTextView
-        textView.gravity = Gravity.CENTER_VERTICAL
-        val margin = pxFromDp(12f).toInt()
-        textView.setPadding(margin, 0, margin, 0)
-        return textView
-    }
-
-    private fun getRadiusBackgroundShape(radius: Float): GradientDrawable {
-        val radiusBackground = GradientDrawable()
-        radiusBackground.cornerRadius = radius
-        return radiusBackground
+    /**
+     * Allow interact with negative section, if you disallow, the negative section will hide,
+     * and it's not working
+     * @param [allow] true if allow to use negative, false to disallow
+     * */
+    fun allowNegative(allow: Boolean) {
+        allowNegative = allow
+        updateSideControls()
     }
 
     /**
-     * Handle clipping of the rounded container
+     * Allow interact with positive section, if you disallow, the positive section will hide,
+     * and it's not working
+     * @param [allow] true if allow to use positive, false to disallow
+     * */
+    fun allowPositive(allow: Boolean) {
+        allowPositive = allow
+        updateSideControls()
+    }
+
+    /**
+     * Update visibility of the negative and positive views
      */
+    private fun updateSideControls() {
+        textViewNegative.setVisibility(allowNegative)
+        textViewPositive.setVisibility(allowPositive)
+
+        textViewNegative.setTextColor(
+            ContextCompat.getColor(context,
+                if (count == minValue) stepperActionColorDisabled else stepperActionColor)
+        )
+        textViewPositive.setTextColor(
+            ContextCompat.getColor(context,
+                if (count == maxValue) stepperActionColorDisabled else stepperActionColor)
+        )
+    }
+
+    fun setTextSize(pixels: Float) {
+        viewCounterText.textSize = pixels
+    }
+
+    fun addStepCallback(callback: OnStepCallback) {
+        callbacks.add(callback)
+    }
+
+    fun removeStepCallback(callback: OnStepCallback) {
+        callbacks.remove(callback)
+    }
+
+    private fun notifyStepCallback(value: Int, positive: Boolean) {
+        callbacks.forEach { it.onStep(value, positive) }
+    }
+
+    private fun add() {
+        if (count != maxValue) count += 1
+    }
+
+    private fun subtract() {
+        if (count != minValue) count--
+    }
+
     override fun onDraw(canvas: Canvas) {
-        rect.let { rect = RectF(canvas.clipBounds) }
-        // Clipping rounded corner
+        clippingBounds.set(canvas.clipBounds)
         val r: Float = height.toFloat() / 2
-        clipPath.addRoundRect(rect, r, r, Path.Direction.CW)
+        clipPath.addRoundRect(clippingBounds, r, r, Path.Direction.CW)
         canvas.clipPath(clipPath)
         super.onDraw(canvas)
     }
 
-    private fun pxFromDp(dp: Float): Float {
-        return dp * resources.displayMetrics.density
+    private fun MotionEvent.isInBounds(view: View): Boolean {
+        val rect = Rect()
+        view.getHitRect(rect)
+        return rect.contains(x.toInt(), y.toInt())
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        newHeight = measuredHeight
-        setStepperSize(viewStepper)
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+    private fun View.setVisibility(isVisible: Boolean) {
+        visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
     }
 }

@@ -31,7 +31,7 @@ allprojects {
 
 ```gradle
 dependencies {
-	implementation 'com.github.DanielMartinus:Stepper-Touch:0.8'
+	implementation 'com.github.DanielMartinus:Stepper-Touch:1.0'
 }
 ```
 
@@ -57,10 +57,11 @@ More info about it here: [#24](https://github.com/DanielMartinus/Stepper-Touch/i
 ### Kotlin
 
 ```Kotlin
-val stepperTouch = findViewById(R.id.stepperTouch) as StepperTouch
-stepperTouch.stepper.setMin(0)
-stepperTouch.stepper.setMax(3)
-stepperTouch.stepper.addStepCallback(object : OnStepCallback {
+val stepperTouch = findViewById<StepperTouch>(R.id.stepperTouch)
+stepperTouch.minValue = 0
+stepperTouch.minValue = 10
+stepperTouch.sideTapEnabled = true
+stepperTouch.addStepCallback(object : OnStepCallback {
 	override fun onStep(value: Int, positive: Boolean) {
     		Toast.makeText(applicationContext, value.toString(), Toast.LENGTH_SHORT).show()
 	}
@@ -70,10 +71,11 @@ stepperTouch.stepper.addStepCallback(object : OnStepCallback {
 ### Java
 
 ```Java
-StepperTouch stepperTouch = (StepperTouch) findViewById(R.id.stepperTouch);
-stepperTouch.stepper.setMin(0);
-stepperTouch.stepper.setMax(3);
-stepperTouch.stepper.addStepCallback(new OnStepCallback() {
+StepperTouch stepperTouch = findViewById(R.id.stepperTouch);
+stepperTouch.setMinValue(0);
+stepperTouch.setMaxValue(3);
+stepperTouch.setSideTapEnabled(true);
+stepperTouch.addStepCallback(new OnStepCallback() {
     @Override
     public void onStep(int value, boolean positive) {
         Toast.makeText(getApplicationContext(), value + "", Toast.LENGTH_SHORT).show();
@@ -83,13 +85,13 @@ stepperTouch.stepper.addStepCallback(new OnStepCallback() {
 
 You're able to further customize or set initial values with styled attributes:
 
-Add res-auto to your xml layout if you haven't yet
+1) Add res-auto to your xml layout if you haven't yet
 
 ```XML
 xmlns:app="http://schemas.android.com/apk/res-auto"
 ```
 
-After that the following attributes will become available:
+2) After that the following attributes will become available:
 
 ```XML
 app:stepperBackgroundColor=""
