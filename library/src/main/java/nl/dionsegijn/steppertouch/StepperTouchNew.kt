@@ -66,7 +66,7 @@ class StepperTouchNew : ConstraintLayout {
         clipChildren = true
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
-            viewCounter.elevation = 8f
+            viewCounter.elevation = 4f
         }
         setWillNotDraw(false)
     }
