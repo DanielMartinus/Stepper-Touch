@@ -20,7 +20,7 @@ import kotlin.properties.Delegates
 /**
  * Created by dionsegijn on 3/19/17.
  */
-class StepperTouchNew : ConstraintLayout {
+class StepperTouch : ConstraintLayout {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) { handleAttrs(attrs) }
