@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         bottomStepperTouch.minValue = -10
-        bottomStepperTouch.maxValue = -10
+        bottomStepperTouch.maxValue = 10
         bottomStepperTouch.sideTapEnabled = true
         bottomStepperTouch.addStepCallback(object : OnStepCallback {
             override fun onStep(value: Int, positive: Boolean) {
