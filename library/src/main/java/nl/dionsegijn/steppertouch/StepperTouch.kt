@@ -200,10 +200,6 @@ class StepperTouch : ConstraintLayout {
         callbacks.forEach { it.onStep(value, positive) }
     }
 
-    fun setValue(value: Int) {
-        count = value
-    }
-
     private fun add() {
         if (count != maxValue) count += 1
     }
