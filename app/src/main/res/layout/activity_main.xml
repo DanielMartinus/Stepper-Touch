@@ -15,7 +15,7 @@
             android:layout_weight="1"
             android:gravity="center">
 
-        <nl.dionsegijn.steppertouch.StepperTouch
+        <nl.dionsegijn.steppertouch.StepperTouchNew
                 android:id="@+id/stepperTouch"
                 android:layout_width="130dp"
                 android:layout_height="50dp"
@@ -32,7 +32,7 @@
             android:background="#fefefe"
             android:gravity="center">
 
-        <nl.dionsegijn.steppertouch.StepperTouch
+        <nl.dionsegijn.steppertouch.StepperTouchNew
                 android:id="@+id/bottomStepperTouch"
                 android:layout_width="130dp"
                 android:layout_height="50dp"

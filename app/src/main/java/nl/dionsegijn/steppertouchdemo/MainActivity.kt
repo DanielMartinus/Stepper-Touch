@@ -13,22 +13,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        stepperTouch.stepper.setMin(0)
-        stepperTouch.stepper.setMax(5)
-        stepperTouch.stepper.addStepCallback(object : OnStepCallback {
+        stepperTouch.minValue = 0
+        stepperTouch.maxValue = 5
+        stepperTouch.addStepCallback(object : OnStepCallback {
             override fun onStep(value: Int, positive: Boolean) {
                 Toast.makeText(applicationContext, value.toString(), Toast.LENGTH_SHORT).show()
             }
         })
 
-        bottomStepperTouch.stepper.setMin(-10)
-        bottomStepperTouch.stepper.setMax(10)
-        bottomStepperTouch.enableSideTap(true)
-        bottomStepperTouch.stepper.addStepCallback(object : OnStepCallback {
+        bottomStepperTouch.minValue = -10
+        bottomStepperTouch.maxValue = -10
+        bottomStepperTouch.sideTapEnabled = true
+        bottomStepperTouch.addStepCallback(object : OnStepCallback {
             override fun onStep(value: Int, positive: Boolean) {
                 // Hide and disable the negative or positive stepper when max or min is reached
-                bottomStepperTouch.allowNegative(value > bottomStepperTouch.stepper.getMin())
-                bottomStepperTouch.allowPositive(value < bottomStepperTouch.stepper.getMax())
+                bottomStepperTouch.allowNegative(value > bottomStepperTouch.minValue)
+                bottomStepperTouch.allowPositive(value < bottomStepperTouch.maxValue)
             }
         })
     }
