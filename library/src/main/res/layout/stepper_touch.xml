@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:text="-"
+        android:text="@string/stepper_text_negative"
         android:textSize="@dimen/stepper_side_control_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="0"
+            android:text="@string/stepper_text_count"
             android:textColor="@color/stepper_text"
             android:textSize="24sp" />
 
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:text="+"
+        android:text="@string/stepper_text_positive"
         android:textSize="@dimen/stepper_side_control_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

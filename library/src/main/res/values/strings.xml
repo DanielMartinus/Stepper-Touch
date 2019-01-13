@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Stepper Touch</string>
     <string name="github_repo" translatable="false">https://github.com/DanielMartinus/Stepper-Touch</string>
+    <string name="stepper_text_negative">-</string>
+    <string name="stepper_text_positive">+</string>
+    <string name="stepper_text_count">0</string>
 </resources>
