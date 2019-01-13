@@ -8,7 +8,6 @@ import android.graphics.Rect
 import android.graphics.RectF
 import androidx.dynamicanimation.animation.SpringAnimation
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -85,6 +84,8 @@ class StepperTouchNew : ConstraintLayout {
         } finally {
             styles.recycle()
         }
+
+        updateSideControls()
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -131,12 +132,6 @@ class StepperTouchNew : ConstraintLayout {
         }
     }
 
-    private fun MotionEvent.isInBounds(view: View): Boolean {
-        val rect = Rect()
-        view.getHitRect(rect)
-        return rect.contains(x.toInt(), y.toInt())
-    }
-
     private fun updateTextColor() {
         textViewNegative.setTextColor(
             ContextCompat.getColor(context,
@@ -146,6 +141,34 @@ class StepperTouchNew : ConstraintLayout {
             ContextCompat.getColor(context,
                 if (count == maxValue) stepperActionColorDisabled else stepperActionColor)
         )
+    }
+
+    /**
+     * Allow interact with negative section, if you disallow, the negative section will hide,
+     * and it's not working
+     * @param [allow] true if allow to use negative, false to disallow
+     * */
+    fun allowNegative(allow: Boolean) {
+        allowNegative = allow
+        updateSideControls()
+    }
+
+    /**
+     * Allow interact with positive section, if you disallow, the positive section will hide,
+     * and it's not working
+     * @param [allow] true if allow to use positive, false to disallow
+     * */
+    fun allowPositive(allow: Boolean) {
+        allowPositive = allow
+        updateSideControls()
+    }
+
+    /**
+     * Update visibility of the negative and positive views
+     */
+    private fun updateSideControls() {
+        textViewNegative.setVisibility(allowNegative)
+        textViewPositive.setVisibility(allowPositive)
     }
 
     fun setTextSize(pixels: Float) {
@@ -190,5 +213,15 @@ class StepperTouchNew : ConstraintLayout {
         clipPath.addRoundRect(clippingBounds, r, r, Path.Direction.CW)
         canvas.clipPath(clipPath)
         super.onDraw(canvas)
+    }
+
+    private fun MotionEvent.isInBounds(view: View): Boolean {
+        val rect = Rect()
+        view.getHitRect(rect)
+        return rect.contains(x.toInt(), y.toInt())
+    }
+
+    private fun View.setVisibility(isVisible: Boolean) {
+        visibility = if(isVisible) View.VISIBLE else View.INVISIBLE
     }
 }
