@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
+    <FrameLayout
         android:id="@+id/viewCounter"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -27,18 +27,17 @@
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textColor="@color/stepper_text"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/viewCounter"
-        app:layout_constraintEnd_toEndOf="@+id/viewCounter"
-        app:layout_constraintStart_toStartOf="@+id/viewCounter"
-        app:layout_constraintTop_toTopOf="@+id/viewCounter" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="0"
+            android:textColor="@color/stepper_text"
+            android:textSize="24sp" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/textView"
