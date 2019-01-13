@@ -7,7 +7,6 @@ import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
 import androidx.dynamicanimation.animation.SpringAnimation
 import android.util.AttributeSet
 import android.view.LayoutInflater
