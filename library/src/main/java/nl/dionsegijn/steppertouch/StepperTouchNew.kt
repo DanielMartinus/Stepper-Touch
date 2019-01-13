@@ -2,11 +2,13 @@ package nl.dionsegijn.steppertouch
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.RectF
 import androidx.dynamicanimation.animation.SpringAnimation
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -25,8 +27,8 @@ class StepperTouchNew : ConstraintLayout {
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) { handleAttrs(attrs) }
 
     // Drawing properties
+    private val clippingBounds: RectF = RectF()
     private val clipPath = Path()
-    private var rect: RectF? = null
 
     // Animation properties
     private val stiffness: Float = 200f
@@ -65,6 +67,7 @@ class StepperTouchNew : ConstraintLayout {
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             elevation = 4f
         }
+        setWillNotDraw(false)
     }
 
     private fun handleAttrs(attrs: AttributeSet) {
@@ -179,5 +182,13 @@ class StepperTouchNew : ConstraintLayout {
 
     private fun subtract() {
         if (count != minValue) count--
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        clippingBounds.set(canvas.clipBounds)
+        val r: Float = height.toFloat() / 2
+        clipPath.addRoundRect(clippingBounds, r, r, Path.Direction.CW)
+        canvas.clipPath(clipPath)
+        super.onDraw(canvas)
     }
 }
