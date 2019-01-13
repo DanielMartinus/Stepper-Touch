@@ -2,36 +2,14 @@
 <issues format="4" by="lint 3.2.1" client="gradle" variant="debug" version="3.2.1">
 
     <issue
-        id="ResourceAsColor"
-        message="Should pass resolved pixel dimension instead of resource id here: `getResources().getDimension*(R.dimen.st_textsize)`"
-        errorLine1="            stepperTextSize = styles.getDimensionPixelSize(R.styleable.StepperTouch_stepperTextSize, R.dimen.st_textsize)"
-        errorLine2="                                                                                                     ~~~~~~~~~~~~~~~~~~~">
+        id="Overdraw"
+        message="Possible overdraw: Root element paints background `@color/stepper_background` with a theme that also paints a background (inferred theme is `@android:style/Theme.Holo`)"
+        errorLine1="    android:background=&quot;@color/stepper_background&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/nl/dionsegijn/steppertouch/StepperTouch.kt"
-            line="69"
-            column="102"/>
-    </issue>
-
-    <issue
-        id="InflateParams"
-        message="Avoid passing `null` as the view root (needed to resolve layout parameters on the inflated layout&apos;s root element)"
-        errorLine1="        val view = LayoutInflater.from(context).inflate(R.layout.view_step_counter, null) as StepperCounter"
-        errorLine2="                                                                                    ~~~~">
-        <location
-            file="src/main/java/nl/dionsegijn/steppertouch/StepperTouch.kt"
-            line="208"
-            column="85"/>
-    </issue>
-
-    <issue
-        id="DrawAllocation"
-        message="Avoid object allocations during draw/layout operations (preallocate and reuse instead)"
-        errorLine1="        rect.let { rect = RectF(canvas.clipBounds) }"
-        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/nl/dionsegijn/steppertouch/StepperTouch.kt"
-            line="256"
-            column="27"/>
+            file="src/main/res/layout/stepper_touch.xml"
+            line="8"
+            column="5"/>
     </issue>
 
     <issue
@@ -52,7 +30,7 @@
         errorLine2="                 ~~~~~~~~~~~~">
         <location
             file="src/main/java/nl/dionsegijn/steppertouch/StepperTouch.kt"
-            line="171"
+            line="107"
             column="18"/>
     </issue>
 
