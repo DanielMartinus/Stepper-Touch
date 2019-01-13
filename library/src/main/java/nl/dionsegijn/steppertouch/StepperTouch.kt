@@ -14,6 +14,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import kotlinx.android.synthetic.main.stepper_touch.view.*
 import kotlin.properties.Delegates
 
@@ -128,8 +129,12 @@ class StepperTouch : ConstraintLayout {
                 allowDragging = false
 
                 when {
-                    viewCounter.translationX > viewCounter.width * 0.5 && allowPositive -> add()
-                    viewCounter.translationX < -(viewCounter.width * 0.5) && allowNegative -> subtract()
+                    viewCounter.translationX > viewCounter.width * 0.5 && allowPositive -> {
+                        if (isLTR()) add() else subtract()
+                    }
+                    viewCounter.translationX < -(viewCounter.width * 0.5) && allowNegative -> {
+                        if (isLTR()) subtract() else add()
+                    }
                 }
 
                 if (viewCounter.translationX != 0f) {
@@ -224,5 +229,9 @@ class StepperTouch : ConstraintLayout {
 
     private fun View.setVisibility(isVisible: Boolean) {
         visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
+    }
+
+    private fun View.isLTR(): Boolean {
+        return ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_LTR
     }
 }
