@@ -36,6 +36,21 @@ spotless {
     kotlin {
         ktlint("0.29.0")
         target "**/*.kt"
+        endWithNewline()
+    }
+    format 'misc', {
+        target fileTree('.') {
+            include '**/*.md'
+            include '**/*.gitignore'
+            include '**/*.xml'
+            exclude '**/.gradle/**'
+            exclude '**/build/**'
+            exclude '.idea/**'
+        }
+
+        trimTrailingWhitespace()
+        indentWithSpaces()
+        endWithNewline()
     }
 }
 
