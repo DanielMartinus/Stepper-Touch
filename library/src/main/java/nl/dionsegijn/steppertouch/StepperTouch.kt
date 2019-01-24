@@ -7,7 +7,6 @@ import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.GradientDrawable
-import androidx.dynamicanimation.animation.SpringAnimation
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -15,7 +14,12 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
-import kotlinx.android.synthetic.main.stepper_touch.view.*
+import androidx.dynamicanimation.animation.SpringAnimation
+import kotlinx.android.synthetic.main.stepper_touch.view.textViewNegative
+import kotlinx.android.synthetic.main.stepper_touch.view.textViewPositive
+import kotlinx.android.synthetic.main.stepper_touch.view.viewBackground
+import kotlinx.android.synthetic.main.stepper_touch.view.viewCounter
+import kotlinx.android.synthetic.main.stepper_touch.view.viewCounterText
 import kotlin.properties.Delegates
 
 /**
@@ -24,8 +28,13 @@ import kotlin.properties.Delegates
 class StepperTouch : ConstraintLayout {
 
     constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) { handleAttrs(attrs) }
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) { handleAttrs(attrs) }
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        handleAttrs(attrs)
+    }
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        handleAttrs(attrs)
+    }
 
     // Drawing properties
     private val clippingBounds: RectF = RectF()
@@ -41,12 +50,16 @@ class StepperTouch : ConstraintLayout {
     private var allowDragging = false
     private var isTapped: Boolean = false
 
-    var maxValue: Int by Delegates.observable(Integer.MAX_VALUE) { _, _, _ ->
-        updateSideControls()
-    }
-    var minValue: Int by Delegates.observable(Integer.MIN_VALUE) { _, _, _ ->
-        updateSideControls()
-    }
+    var maxValue: Int = Integer.MAX_VALUE
+        set(value) {
+            field = value
+            updateSideControls()
+        }
+    var minValue: Int = Integer.MIN_VALUE
+        set(value) {
+            field = value
+            updateSideControls()
+        }
     private val callbacks: MutableList<OnStepCallback> = mutableListOf()
     var count: Int by Delegates.observable(0) { _, old, new ->
         viewCounterText.text = new.toString()
@@ -78,11 +91,17 @@ class StepperTouch : ConstraintLayout {
         val styles: TypedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.StepperTouch, 0, 0)
 
         try {
-            stepperBackground = styles.getResourceId(R.styleable.StepperTouch_stepperBackgroundColor, R.color.stepper_background)
-            stepperActionColor = styles.getResourceId(R.styleable.StepperTouch_stepperActionsColor, R.color.stepper_actions)
-            stepperActionColorDisabled = styles.getResourceId(R.styleable.StepperTouch_stepperActionsDisabledColor, R.color.stepper_actions_disabled)
+            stepperBackground =
+                styles.getResourceId(R.styleable.StepperTouch_stepperBackgroundColor, R.color.stepper_background)
+            stepperActionColor =
+                styles.getResourceId(R.styleable.StepperTouch_stepperActionsColor, R.color.stepper_actions)
+            stepperActionColorDisabled = styles.getResourceId(
+                R.styleable.StepperTouch_stepperActionsDisabledColor,
+                R.color.stepper_actions_disabled
+            )
             stepperTextColor = styles.getResourceId(R.styleable.StepperTouch_stepperTextColor, R.color.stepper_text)
-            stepperButtonColor = styles.getResourceId(R.styleable.StepperTouch_stepperButtonColor, R.color.stepper_button)
+            stepperButtonColor =
+                styles.getResourceId(R.styleable.StepperTouch_stepperButtonColor, R.color.stepper_button)
             stepperTextSize = styles.getDimensionPixelSize(R.styleable.StepperTouch_stepperTextSize, stepperTextSize)
             allowNegative = styles.getBoolean(R.styleable.StepperTouch_stepperAllowNegative, true)
             allowPositive = styles.getBoolean(R.styleable.StepperTouch_stepperAllowPositive, true)
@@ -180,12 +199,16 @@ class StepperTouch : ConstraintLayout {
         textViewPositive.setVisibility(allowPositive)
 
         textViewNegative.setTextColor(
-            ContextCompat.getColor(context,
-                if (count == minValue) stepperActionColorDisabled else stepperActionColor)
+            ContextCompat.getColor(
+                context,
+                if (count == minValue) stepperActionColorDisabled else stepperActionColor
+            )
         )
         textViewPositive.setTextColor(
-            ContextCompat.getColor(context,
-                if (count == maxValue) stepperActionColorDisabled else stepperActionColor)
+            ContextCompat.getColor(
+                context,
+                if (count == maxValue) stepperActionColorDisabled else stepperActionColor
+            )
         )
     }
 
