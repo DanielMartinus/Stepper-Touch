@@ -41,10 +41,14 @@ class StepperTouch : ConstraintLayout {
     private var allowDragging = false
     private var isTapped: Boolean = false
 
-    var maxValue: Int by Delegates.observable(Integer.MAX_VALUE) { _, _, _ ->
-        updateSideControls()
-    }
-    var minValue: Int by Delegates.observable(Integer.MIN_VALUE) { _, _, _ ->
+    var maxValue: Int = Integer.MAX_VALUE
+        set(value) {
+            field = value
+            updateSideControls()
+        }
+    var minValue: Int = Integer.MIN_VALUE
+        set(value) {
+        field = value
         updateSideControls()
     }
     private val callbacks: MutableList<OnStepCallback> = mutableListOf()
