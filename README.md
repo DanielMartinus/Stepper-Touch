@@ -5,6 +5,7 @@
 
 **For more updates** on this and other open-source projects, follow me on twitter 👉 [here](https://twitter.com/DionSegijn)
 
+---
 
 Stepper Touch for Android based on a Material Up showcase designed by [Oleg Frolov](https://material.uplabs.com/posts/stepper-touch-interface)
 
