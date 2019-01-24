@@ -3,6 +3,8 @@
 
 [![Twitter](https://img.shields.io/badge/Twitter-@dionsegijn-blue.svg?style=flat)](http://twitter.com/dionsegijn) ![API](https://img.shields.io/badge/API-16%2B-blue.svg?style=flat) [![Awesome Kotlin Badge](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin) [![CircleCI](https://circleci.com/gh/DanielMartinus/Stepper-Touch/tree/master.svg?style=svg)](https://circleci.com/gh/DanielMartinus/Stepper-Touch/tree/master)
 
+**For more updates** on this and other open-source projects, follow me on twitter 👉 [here](https://twitter.com/DionSegijn)
+
 
 Stepper Touch for Android based on a Material Up showcase designed by [Oleg Frolov](https://material.uplabs.com/posts/stepper-touch-interface)
 
