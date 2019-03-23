@@ -34,14 +34,14 @@ allprojects {
 
 ```gradle
 dependencies {
-	implementation 'com.github.DanielMartinus:Stepper-Touch:1.0'
+    implementation 'com.github.DanielMartinus:Stepper-Touch:1.0.1'
 }
 ```
 
 If you haven't migrated your project to **AndroidX** use:
 ```gradle
 dependencies {
-	implementation 'com.github.DanielMartinus:Stepper-Touch:0.6'
+    implementation 'com.github.DanielMartinus:Stepper-Touch:0.6'
 }
 ```
 
