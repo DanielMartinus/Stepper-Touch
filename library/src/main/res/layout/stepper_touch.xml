@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/viewBackground"
-    android:layout_width="130dp"
-    android:layout_height="50dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/stepper_background"
     android:orientation="vertical">
 
