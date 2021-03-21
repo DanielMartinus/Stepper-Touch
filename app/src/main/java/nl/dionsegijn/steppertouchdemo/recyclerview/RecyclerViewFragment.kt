@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import kotlinx.android.synthetic.main.fragment_recycler_view.recyclerView
-import nl.dionsegijn.steppertouch.StepperTouch
 import nl.dionsegijn.steppertouchdemo.R
 import nl.dionsegijn.steppertouchdemo.recyclerview.items.StepperTouchItem
 import nl.dionsegijn.steppertouchdemo.recyclerview.items.TextItem

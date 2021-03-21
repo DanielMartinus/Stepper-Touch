@@ -32,7 +32,11 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, RecyclerViewFragment()).commit()
+        btnDemoRecyclerView.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, RecyclerViewFragment())
+                .addToBackStack("fragment")
+                .commit()
+        }
     }
-
 }
