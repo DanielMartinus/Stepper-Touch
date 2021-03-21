@@ -7,14 +7,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="nl.dionsegijn.steppertouchdemo.MainActivity">
 
-    <Button
-        android:id="@+id/btnDemoRecyclerView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="List demo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -59,6 +51,15 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnDemoRecyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="List demo"
+        android:stateListAnimator="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
