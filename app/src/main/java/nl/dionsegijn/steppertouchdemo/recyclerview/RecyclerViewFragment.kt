@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupieAdapter
 import kotlinx.android.synthetic.main.fragment_recycler_view.recyclerView
+import nl.dionsegijn.steppertouch.StepperTouch
 import nl.dionsegijn.steppertouchdemo.R
 import nl.dionsegijn.steppertouchdemo.recyclerview.items.StepperTouchItem
 import nl.dionsegijn.steppertouchdemo.recyclerview.items.TextItem
@@ -29,23 +30,12 @@ class RecyclerViewFragment : Fragment() {
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        adapter.addAll(listOf(
-            TextItem("First item"),
-            TextItem("Second item"),
-            StepperTouchItem(),
-            TextItem("Fourth item"),
-            TextItem("Fifth item"),
-            StepperTouchItem(),
-            TextItem("Seventh item"),
-            TextItem("Eight item"),
-            TextItem("Ninth item"),
-            TextItem("Tenth item"),
-            TextItem("Eleven item"),
-            TextItem("Twelve item"),
-            StepperTouchItem(),
-            TextItem("Thirteen item"),
-            TextItem("Fourteen item"),
-        ))
+
+        val list = (1..100).map {
+            if (it % 5 == 0) StepperTouchItem() else TextItem("Item #$it")
+        }
+
+        adapter.addAll(list)
         adapter.notifyDataSetChanged()
     }
 }
