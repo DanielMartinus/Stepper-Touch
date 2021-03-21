@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.dionsegijn.steppertouch.OnStepCallback
-
+import nl.dionsegijn.steppertouchdemo.recyclerview.RecyclerViewFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
                 bottomStepperTouch.allowPositive(value < bottomStepperTouch.maxValue)
             }
         })
+
+        supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, RecyclerViewFragment()).commit()
     }
 
 }
