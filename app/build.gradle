@@ -29,7 +29,7 @@ dependencies {
     implementation "com.xwray:groupie:2.9.0"
     implementation "com.xwray:groupie-viewbinding:2.9.0"
     implementation "com.xwray:groupie-kotlin-android-extensions:2.9.0"
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.0"
     implementation project(path: ':library')
 }
 
